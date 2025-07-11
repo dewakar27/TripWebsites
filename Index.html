@@ -213,12 +213,16 @@
   function showItineraryCards(dest,days){
     const cont=document.getElementById('itineraryCards');cont.innerHTML='';
     const pics={
-      Japan:["https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=800&q=80",
-             "https://images.unsplash.com/photo-1504198458649-3128b932d6d3?auto=format&fit=crop&w=800&q=80",
-             "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=800&q=80"],
-      Seattle:["https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=800&q=80",
-               "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=800&q=80",
-               "https://images.unsplash.com/photo-1547721064-da6cfb341d50?auto=format&fit=crop&w=800&q=80"]
+      Japan:[
+        "https://cdn.pixabay.com/photo/2018/11/18/19/24/japan-3824482_1280.jpg",
+        "https://cdn.pixabay.com/photo/2016/11/29/10/07/kyoto-1868470_1280.jpg",
+        "https://cdn.pixabay.com/photo/2021/07/14/07/10/japan-6462934_1280.jpg"
+      ],
+      Seattle:[
+        "https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg",
+        "https://cdn.pixabay.com/photo/2020/06/18/17/12/pike-place-market-5312471_1280.jpg",
+        "https://cdn.pixabay.com/photo/2018/07/23/22/52/mount-rainier-3553254_1280.jpg"
+      ]
     };
     for(let i=1;i<=days;i++){
       const card=document.createElement('div');card.className='day-card';
@@ -236,12 +240,4 @@
       const b=document.createElement('div');b.className='bot-msg';
       const l=m.toLowerCase(),d=(m.match(/(\d+)\s*day/)?parseInt(m.match(/(\d+)\s*day/)[1]):0);
       if(l.includes('japan')&&d>0) b.innerHTML=generateCreativeItinerary('Japan',d);
-      else if(l.includes('seattle')&&d>0) b.innerHTML=generateCreativeItinerary('Seattle',d);
-      else if(l.includes('budget')) b.innerText='Switch to Smart Mode above and enter your total budget!';
-      else b.innerText='Try: “Plan 3 days in Japan” or switch to Smart Mode.';
-      chat.appendChild(b);chat.scrollTop=chat.scrollHeight;
-    },700);
-  }
-</script>
-</body>
-</html>
+      else if(l.includes('seattle')&&
