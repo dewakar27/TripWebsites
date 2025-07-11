@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Plan your next adventure with TripPilot by Deju – an interactive travel planner for Japan and Seattle.">
+  <meta property="og:title" content="TripPilot by Deju">
+  <meta property="og:description" content="Interactive AI travel assistant with trip planning, budget tool, and itinerary builder.">
+  <meta property="og:image" content="https://i.imgur.com/M6SenXN.jpeg">
+  <meta property="og:url" content="https://deju-travel-planner.netlify.app">
+  <link rel="icon" href="https://i.imgur.com/zzFFyij.png" type="image/png">
   <title>TripPilot by Deju</title>
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
@@ -17,6 +23,9 @@
       color: white;
       text-align: center;
       padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 999;
     }
     header h1 {
       font-size: 2rem;
@@ -27,237 +36,108 @@
       from {opacity: 0; transform: translateY(-20px);}
       to {opacity: 1; transform: translateY(0);}
     }
-
-    .hero {
-      position: relative;
-      background: url('https://i.imgur.com/M6SenXN.jpeg') center center / cover no-repeat fixed;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(to bottom right, rgba(0,0,0,0.5), rgba(0,0,0,0.8));
-      z-index: 0;
-    }
-    .hero-content {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      text-align: center;
-      z-index: 1;
-    }
-    .hero-content h2 {
-      font-size: 2.5rem;
-      color: white;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
-      animation: slideUp 1.5s ease-out;
-    }
-    @keyframes slideUp {
-      from {transform: translateY(30px); opacity: 0;}
-      to {transform: translateY(0); opacity: 1;}
-    }
-
-    .floating-image {
-      position: absolute;
-      width: 80px;
-      animation: float 6s ease-in-out infinite;
-      z-index: 2;
-      transition: transform 0.3s ease;
-    }
-    .floating-image:hover {
-      transform: scale(1.1);
-    }
-    .float1 { top: 15%; left: 5%; animation-delay: 0s; }
-    .float2 { top: 50%; right: 10%; animation-delay: 1s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-
     .planner {
-      background: #fff;
       text-align: center;
       padding: 2rem;
+      background: #fff;
     }
     .planner input, .planner select, .planner button {
       margin: 0.5rem;
       padding: 0.7rem;
       font-size: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      transition: all 0.3s ease;
     }
-    .planner button {
-      background-color: #ff5722;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      animation: pulse 2s infinite;
-      transition: transform 0.3s;
+    .itinerary {
+      padding: 2rem;
+      background: #f0f0f0;
     }
-    .planner button:hover {
-      background-color: #e64a19;
-      transform: scale(1.1);
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255,87,34,0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(255,87,34,0); }
-      100% { box-shadow: 0 0 0 0 rgba(255,87,34,0); }
-    }
-
-    .loading-spinner {
-      display: none;
-      margin-top: 1rem;
-    }
-    .loading-spinner span {
-      display: inline-block;
-      animation: blink 1s infinite;
-    }
-    .loading-spinner span:nth-child(2) { animation-delay: 0.2s; }
-    .loading-spinner span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes blink {
-      0% {opacity: 0.2;}
-      50% {opacity: 1;}
-      100% {opacity: 0.2;}
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 1s ease;
-    }
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .experience-card, .popular-card {
-      width: 260px;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    .experience-card:hover, .popular-card:hover {
-      transform: translateY(-8px);
-    }
-
-    footer {
-      text-align: center;
-      background: #111;
-      color: white;
+    .itinerary-card {
+      background: white;
       padding: 1rem;
-      font-size: 0.9rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .popular-places {
+      padding: 2rem;
+      background: #fff;
+    }
+    .popular-places img {
+      width: 100%;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
 
-<div class="hero">
-  <a href="#japan"><img src="https://i.imgur.com/zzFFyij.png" class="floating-image float1" alt="Japan Pin"></a>
-  <a href="#seattle"><img src="https://i.imgur.com/5DGPlCi.png" class="floating-image float2" alt="Seattle Pin"></a>
-  <div class="hero-content">
-    <h2>Plan Your Adventure to Japan or Seattle!</h2>
-  </div>
+<div class="language-switcher">
+  <select onchange="alert('Language switcher is coming soon!')">
+    <option value="en">🌐 English</option>
+    <option value="jp">🇯🇵 Japanese</option>
+  </select>
 </div>
 
-<section class="planner">
-  <h3>Start Planning</h3>
+<header>
+  <h1 onclick="location.href='/'">TripPilot 🔥</h1>
+</header>
+
+<div class="planner">
+  <h2>Start Your Trip Plan</h2>
   <input type="date" id="tripDate" />
-  <input type="number" id="budget" placeholder="Enter your budget" />
+  <input type="number" id="budget" placeholder="Enter budget ($)" />
   <select id="destination">
     <option value="">Choose Destination</option>
     <option value="Japan">Japan</option>
     <option value="Seattle">Seattle</option>
   </select>
   <button onclick="generateItinerary()">Generate Itinerary</button>
-  <div id="message" style="margin-top: 1rem; color: red;"></div>
-  <div class="loading-spinner" id="loading">
-    <span>.</span><span>.</span><span>.</span>
-  </div>
-</section>
+  <p id="message" style="color:red;"></p>
+</div>
 
 <section class="itinerary">
-  <h3 style="text-align:center;">Your Trip Itinerary</h3>
+  <h2>Your Itinerary</h2>
   <div id="itineraryResults"></div>
 </section>
 
-<section class="reveal" style="text-align:center; padding: 3rem 1rem; background: #fff;">
-  <h2>How it Works</h2>
-  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin-top:1.5rem;">
-    <div class="experience-card">
-      <img src="https://cdn.pixabay.com/photo/2020/03/13/20/07/beach-4927492_1280.jpg" alt="Beach" style="width:100%; height:150px; object-fit:cover;">
-      <div style="padding: 0.5rem;">🏖️ Beach</div>
+<section class="popular-places">
+  <h2 style="text-align:center">Popular Places</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
+    <div style="width:250px;">
+      <img src="https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg" alt="Tokyo">
+      <h4>Tokyo, Japan</h4><p>From $120/day</p>
     </div>
-    <div class="experience-card">
-      <img src="https://cdn.pixabay.com/photo/2017/01/20/00/30/spa-1995066_1280.jpg" alt="Spa" style="width:100%; height:150px; object-fit:cover;">
-      <div style="padding: 0.5rem;">💆 Spa</div>
+    <div style="width:250px;">
+      <img src="https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg" alt="Kyoto">
+      <h4>Kyoto, Japan</h4><p>From $95/day</p>
     </div>
-    <div class="experience-card">
-      <img src="https://cdn.pixabay.com/photo/2020/02/04/19/59/fine-dining-4819156_1280.jpg" alt="Dining" style="width:100%; height:150px; object-fit:cover;">
-      <div style="padding: 0.5rem;">🍽️ Dining</div>
+    <div style="width:250px;">
+      <img src="https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg" alt="Seattle">
+      <h4>Seattle, WA</h4><p>From $150/day</p>
     </div>
-  </div>
-</section>
-
-<section class="reveal" style="background:#f8f8f8; padding:2rem;">
-  <h2 style="text-align:center;">Popular Places</h2>
-  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin-top:1rem;">
-    <div class="popular-card">
-      <img src="https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg" alt="Tokyo" style="width:100%; height:150px; object-fit:cover;">
-      <div style="padding:0.8rem;">
-        <h4>Tokyo, Japan</h4>
-        <p>From $120/day</p>
-      </div>
-    </div>
-    <div class="popular-card">
-      <img src="https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg" alt="Kyoto" style="width:100%; height:150px; object-fit:cover;">
-      <div style="padding:0.8rem;">
-        <h4>Kyoto, Japan</h4>
-        <p>From $95/day</p>
-      </div>
-    </div>
-    <div class="popular-card">
-      <img src="https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg" alt="Seattle" style="width:100%; height:150px; object-fit:cover;">
-      <div style="padding:0.8rem;">
-        <h4>Seattle, WA</h4>
-        <p>From $150/day</p>
-      </div>
+    <div style="width:250px;">
+      <img src="https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg" alt="Pike Place">
+      <h4>Pike Place Market</h4><p>From $80/day</p>
     </div>
   </div>
 </section>
 
-<footer>
-  <p>© 2025 TripPilot by Deju <span class="fire">🔥</span></p>
-</footer>
+<!-- Bot Button + Script -->
+<button class="bot-button" onclick="toggleBot()">💬</button>
+<div class="dejubot" id="dejubot">
+  <div class="dejubot-header">DejuBot 🤖</div>
+  <div class="dejubot-messages" id="botMessages"></div>
+  <div class="dejubot-input">
+    <input type="text" id="userInput" placeholder="Ask me something..." />
+    <button onclick="sendBotMessage()">Send</button>
+  </div>
+</div>
 
 <script>
-  window.addEventListener("scroll", function() {
-    const reveals = document.querySelectorAll(".reveal");
-    for (let i = 0; i < reveals.length; i++) {
-      const windowHeight = window.innerHeight;
-      const elementTop = reveals[i].getBoundingClientRect().top;
-      const elementVisible = 150;
-      if (elementTop < windowHeight - elementVisible) {
-        reveals[i].classList.add("active");
-      }
-    }
-  });
-
   function generateItinerary() {
     const budget = parseInt(document.getElementById('budget').value);
     const dest = document.getElementById('destination').value;
     const date = document.getElementById('tripDate').value;
     const results = document.getElementById('itineraryResults');
     const message = document.getElementById('message');
-    const loading = document.getElementById('loading');
 
     results.innerHTML = '';
     message.textContent = '';
@@ -266,43 +146,65 @@
       message.textContent = "Please fill all fields.";
       return;
     }
-
     if (budget < 200) {
       message.textContent = "Budget too low 😔 Try increasing it for better experience!";
       return;
     }
 
-    loading.style.display = "block";
+    const places = {
+      Japan: ['Tokyo', 'Kyoto', 'Osaka'],
+      Seattle: ['Space Needle', 'Pike Place', 'Mount Rainier']
+    };
+    const photos = {
+      Japan: [
+        'https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg',
+        'https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg',
+        'https://cdn.pixabay.com/photo/2017/01/13/11/14/osaka-1972813_1280.jpg'
+      ],
+      Seattle: [
+        'https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg',
+        'https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg',
+        'https://cdn.pixabay.com/photo/2017/05/06/00/47/mount-rainier-2281224_1280.jpg'
+      ]
+    };
+
+    for (let i = 0; i < 3; i++) {
+      results.innerHTML += `
+        <div class="itinerary-card">
+          <h4>Day ${i+1}: ${places[dest][i]}</h4>
+          <img src="${photos[dest][i]}" style="width:100%; border-radius:10px; margin-top:10px;">
+          <p>Explore ${places[dest][i]} with local food, culture, and sights!</p>
+        </div>
+      `;
+    }
+  }
+
+  function toggleBot() {
+    const bot = document.getElementById("dejubot");
+    bot.style.display = bot.style.display === "flex" ? "none" : "flex";
+  }
+
+  function sendBotMessage() {
+    const input = document.getElementById("userInput");
+    const messageBox = document.getElementById("botMessages");
+    const userText = input.value.trim();
+
+    if (!userText) return;
+    messageBox.innerHTML += `<div><strong>You:</strong> ${userText}</div>`;
+    input.value = "";
+
+    messageBox.innerHTML += `<div><em>DejuBot is typing</em> <span>.</span><span>.</span><span>.</span></div>`;
 
     setTimeout(() => {
-      loading.style.display = "none";
-      const places = {
-        Japan: ['Tokyo', 'Kyoto', 'Osaka'],
-        Seattle: ['Space Needle', 'Pike Place', 'Mount Rainier']
-      };
-      const photos = {
-        Japan: [
-          'https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg',
-          'https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg',
-          'https://cdn.pixabay.com/photo/2017/01/13/11/14/osaka-1972813_1280.jpg'
-        ],
-        Seattle: [
-          'https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg',
-          'https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg',
-          'https://cdn.pixabay.com/photo/2017/05/06/00/47/mount-rainier-2281224_1280.jpg'
-        ]
-      };
-
-      for (let i = 0; i < 3; i++) {
-        results.innerHTML += `
-          <div class="itinerary-card">
-            <h4>Day ${i+1}: ${places[dest][i]}</h4>
-            <img src="${photos[dest][i]}" style="width:100%; border-radius:10px; margin-top:10px;">
-            <p>Explore ${places[dest][i]} with local food, culture, and sights!</p>
-          </div>
-        `;
-      }
-    }, 1500);
+      messageBox.innerHTML += `<div><strong>DejuBot:</strong> ${
+        userText.toLowerCase().includes("japan") ? 
+        "Japan is amazing with sushi and temples! 🍣⛩️" :
+        userText.toLowerCase().includes("seattle") ? 
+        "Seattle is rainy but cozy. Don’t miss the Space Needle! ☕🗼" :
+        "That’s a great question! Let me help you explore."
+      }</div>`;
+      messageBox.scrollTop = messageBox.scrollHeight;
+    }, 1200);
   }
 </script>
 
