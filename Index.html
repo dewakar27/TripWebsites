@@ -240,4 +240,12 @@
       const b=document.createElement('div');b.className='bot-msg';
       const l=m.toLowerCase(),d=(m.match(/(\d+)\s*day/)?parseInt(m.match(/(\d+)\s*day/)[1]):0);
       if(l.includes('japan')&&d>0) b.innerHTML=generateCreativeItinerary('Japan',d);
-      else if(l.includes('seattle')&&
+      else if(l.includes('seattle')&&d>0) b.innerHTML=generateCreativeItinerary('Seattle',d);
+      else b.innerText="I can help plan trips for Japan or Seattle! Try 'Plan 3 days in Japan'.";
+      chat.appendChild(b);
+      chat.scrollTop=chat.scrollHeight;
+    },1000);
+  }
+</script>
+</body>
+</html>
