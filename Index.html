@@ -6,7 +6,7 @@
   <meta name="description" content="Plan your next adventure with TripPilot by Deju – an interactive travel planner for Japan and Seattle.">
   <meta property="og:title" content="TripPilot by Deju">
   <meta property="og:description" content="Interactive AI travel assistant with trip planning, budget tool, and itinerary builder.">
-  <meta property="og:image" content="https://i.imgur.com/M6SenXN.jpeg">
+  <meta property="og:image" content="https://i.imgur.com/HMzN9PZ.jpeg">
   <meta property="og:url" content="https://deju-travel-planner.netlify.app">
   <link rel="icon" href="https://i.imgur.com/zzFFyij.png" type="image/png">
   <title>TripPilot by Deju</title>
@@ -40,13 +40,10 @@
       position: relative;
       height: 100vh;
       overflow: hidden;
+      background: url('https://i.imgur.com/HMzN9PZ.jpeg') no-repeat center center/cover;
     }
     .hero video {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      object-fit: cover;
-      z-index: -1;
+      display: none;
     }
     .hero-content {
       position: relative;
@@ -143,12 +140,8 @@
   <h1 onclick="location.href='/'">TripPilot 🔥</h1>
 </header>
 
-<!-- Hero Video Background -->
+<!-- Hero Static Background -->
 <div class="hero">
-  <video autoplay muted loop>
-    <source src="https://cdn.pixabay.com/video/2018/10/17/20336-297212107_large.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
   <div class="hero-content">
     <h2>Plan Your Adventure to Japan or Seattle!</h2>
   </div>
