@@ -80,6 +80,54 @@
       50% { transform: translateY(-15px); }
     }
 
+    .planner {
+      background: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+    .planner input, .planner select, .planner button {
+      margin: 0.5rem;
+      padding: 0.7rem;
+      font-size: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .planner button {
+      background-color: #ff5722;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+      transition: transform 0.3s;
+    }
+    .planner button:hover {
+      background-color: #e64a19;
+      transform: scale(1.1);
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255,87,34,0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(255,87,34,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,87,34,0); }
+    }
+
+    .loading-spinner {
+      display: none;
+      margin-top: 1rem;
+    }
+    .loading-spinner span {
+      display: inline-block;
+      animation: blink 1s infinite;
+    }
+    .loading-spinner span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-spinner span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0% {opacity: 0.2;}
+      50% {opacity: 1;}
+      100% {opacity: 0.2;}
+    }
+
     .reveal {
       opacity: 0;
       transform: translateY(40px);
@@ -88,6 +136,17 @@
     .reveal.active {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .experience-card, .popular-card {
+      width: 260px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .experience-card:hover, .popular-card:hover {
+      transform: translateY(-8px);
     }
 
     footer {
@@ -109,6 +168,76 @@
   </div>
 </div>
 
+<section class="planner">
+  <h3>Start Planning</h3>
+  <input type="date" id="tripDate" />
+  <input type="number" id="budget" placeholder="Enter your budget" />
+  <select id="destination">
+    <option value="">Choose Destination</option>
+    <option value="Japan">Japan</option>
+    <option value="Seattle">Seattle</option>
+  </select>
+  <button onclick="generateItinerary()">Generate Itinerary</button>
+  <div id="message" style="margin-top: 1rem; color: red;"></div>
+  <div class="loading-spinner" id="loading">
+    <span>.</span><span>.</span><span>.</span>
+  </div>
+</section>
+
+<section class="itinerary">
+  <h3 style="text-align:center;">Your Trip Itinerary</h3>
+  <div id="itineraryResults"></div>
+</section>
+
+<section class="reveal" style="text-align:center; padding: 3rem 1rem; background: #fff;">
+  <h2>How it Works</h2>
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin-top:1.5rem;">
+    <div class="experience-card">
+      <img src="https://cdn.pixabay.com/photo/2020/03/13/20/07/beach-4927492_1280.jpg" alt="Beach" style="width:100%; height:150px; object-fit:cover;">
+      <div style="padding: 0.5rem;">🏖️ Beach</div>
+    </div>
+    <div class="experience-card">
+      <img src="https://cdn.pixabay.com/photo/2017/01/20/00/30/spa-1995066_1280.jpg" alt="Spa" style="width:100%; height:150px; object-fit:cover;">
+      <div style="padding: 0.5rem;">💆 Spa</div>
+    </div>
+    <div class="experience-card">
+      <img src="https://cdn.pixabay.com/photo/2020/02/04/19/59/fine-dining-4819156_1280.jpg" alt="Dining" style="width:100%; height:150px; object-fit:cover;">
+      <div style="padding: 0.5rem;">🍽️ Dining</div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal" style="background:#f8f8f8; padding:2rem;">
+  <h2 style="text-align:center;">Popular Places</h2>
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin-top:1rem;">
+    <div class="popular-card">
+      <img src="https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg" alt="Tokyo" style="width:100%; height:150px; object-fit:cover;">
+      <div style="padding:0.8rem;">
+        <h4>Tokyo, Japan</h4>
+        <p>From $120/day</p>
+      </div>
+    </div>
+    <div class="popular-card">
+      <img src="https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg" alt="Kyoto" style="width:100%; height:150px; object-fit:cover;">
+      <div style="padding:0.8rem;">
+        <h4>Kyoto, Japan</h4>
+        <p>From $95/day</p>
+      </div>
+    </div>
+    <div class="popular-card">
+      <img src="https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg" alt="Seattle" style="width:100%; height:150px; object-fit:cover;">
+      <div style="padding:0.8rem;">
+        <h4>Seattle, WA</h4>
+        <p>From $150/day</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 TripPilot by Deju <span class="fire">🔥</span></p>
+</footer>
+
 <script>
   window.addEventListener("scroll", function() {
     const reveals = document.querySelectorAll(".reveal");
@@ -121,6 +250,60 @@
       }
     }
   });
+
+  function generateItinerary() {
+    const budget = parseInt(document.getElementById('budget').value);
+    const dest = document.getElementById('destination').value;
+    const date = document.getElementById('tripDate').value;
+    const results = document.getElementById('itineraryResults');
+    const message = document.getElementById('message');
+    const loading = document.getElementById('loading');
+
+    results.innerHTML = '';
+    message.textContent = '';
+
+    if (!budget || !dest || !date) {
+      message.textContent = "Please fill all fields.";
+      return;
+    }
+
+    if (budget < 200) {
+      message.textContent = "Budget too low 😔 Try increasing it for better experience!";
+      return;
+    }
+
+    loading.style.display = "block";
+
+    setTimeout(() => {
+      loading.style.display = "none";
+      const places = {
+        Japan: ['Tokyo', 'Kyoto', 'Osaka'],
+        Seattle: ['Space Needle', 'Pike Place', 'Mount Rainier']
+      };
+      const photos = {
+        Japan: [
+          'https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg',
+          'https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg',
+          'https://cdn.pixabay.com/photo/2017/01/13/11/14/osaka-1972813_1280.jpg'
+        ],
+        Seattle: [
+          'https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg',
+          'https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg',
+          'https://cdn.pixabay.com/photo/2017/05/06/00/47/mount-rainier-2281224_1280.jpg'
+        ]
+      };
+
+      for (let i = 0; i < 3; i++) {
+        results.innerHTML += `
+          <div class="itinerary-card">
+            <h4>Day ${i+1}: ${places[dest][i]}</h4>
+            <img src="${photos[dest][i]}" style="width:100%; border-radius:10px; margin-top:10px;">
+            <p>Explore ${places[dest][i]} with local food, culture, and sights!</p>
+          </div>
+        `;
+      }
+    }, 1500);
+  }
 </script>
 
 </body>
