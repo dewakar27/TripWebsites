@@ -1,119 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TripPilot by Deju</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy:#1E3A8A;
-      --coral:#FF6B6B;
-      --sand:#FDE68A;
-      --white:#F9FAFB;
+      --bg-color: #f9fafb;
+      --glass: rgba(255, 255, 255, 0.15);
+      --accent: #ff6b6b;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --text: #1f2937;
     }
-    * {margin:0;padding:0;box-sizing:border-box;}
-    body {
-      font-family:'Inter',sans-serif;
-      background:var(--white);
-      color:#333;
-      overflow-x:hidden;
-    }
-    header.hero {
-      position:relative;height:100vh;
-      display:flex;align-items:center;justify-content:center;text-align:center;
-      overflow:hidden;
-    }
-    #beachVideo {
-      position:absolute;top:0;left:0;width:100%;height:100%;
-      object-fit:cover;z-index:-2;filter:brightness(0.6);
-    }
-    header.hero::after {
-      content:"";position:absolute;top:0;left:0;right:0;bottom:0;
-      background:rgba(30,58,138,0.4);z-index:-1;
-    }
-    .logo {
-      z-index:1;
-    }
-    .typing-title {
-      font-family:'Poppins',sans-serif;
-      color:#fff;
-      font-size:3rem;
-      white-space:nowrap;
-      overflow:hidden;
-      border-right:3px solid #fff;
-      width:0;
-      animation:typing 3s steps(20,end) 1s forwards, blink .5s step-end infinite;
-    }
-    @keyframes typing {
-      from{width:0;} to{width:14ch;}
-    }
-    @keyframes blink {50%{border-color:transparent;}}
-    .logo small {
-      display:block;
-      font-size:1rem;
-      color:var(--sand);
-      margin-top:0.5rem;
-    }
-    main {
-      padding:2rem;
-      text-align:center;
-    }
-    .trip-form {
-      margin:2rem 0;
-    }
-    input, select {
-      padding:0.5rem;
-      font-size:1rem;
-      margin:0.5rem;
-      border:1px solid #ccc;
-      border-radius:5px;
-    }
-    button {
-      padding:0.5rem 1rem;
-      background:var(--coral);
-      color:#fff;
-      border:none;
-      border-radius:5px;
-      cursor:pointer;
-      font-weight:bold;
-    }
-    .results {
-      margin-top:2rem;
-    }
-    .results h3 {
-      color:var(--navy);
-      margin-bottom:1rem;
-    }
-    .results ul {
-      list-style: none;
+    * {
+      margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-    .results li {
-      background: #f3f4f6;
-      margin: 0.5rem auto;
-      padding: 1rem;
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    header {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url('https://cdn.pixabay.com/photo/2016/03/09/15/10/beach-1246791_1280.jpg') center/cover no-repeat;
+      text-align: center;
+      overflow: hidden;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      animation: fadeIn 2s ease-out;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      animation: fadeIn 3s ease-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .floating-pin {
+      position: absolute;
+      width: 40px;
+      animation: float 6s infinite ease-in-out;
+      z-index: 0;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px);}
+      50% { transform: translateY(-20px);}
+      100% { transform: translateY(0px);}
+    }
+    .pin-japan {
+      top: 20%;
+      left: 15%;
+    }
+    .pin-seattle {
+      bottom: 15%;
+      right: 20%;
+    }
+
+    main {
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .form-glass {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      border-radius: 15px;
+      max-width: 500px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 30px var(--shadow);
+    }
+
+    input, select, button {
+      margin: 0.5rem 0;
+      padding: 0.7rem;
+      width: 100%;
+      font-size: 1rem;
       border-radius: 8px;
-      max-width: 600px;
+      border: none;
     }
+
+    select, input {
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: var(--accent);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .itinerary {
+      margin-top: 2rem;
+    }
+
+    .day-card {
+      background: white;
+      margin: 1rem auto;
+      max-width: 600px;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px var(--shadow);
+      transition: transform 0.3s;
+    }
+
+    .day-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .deju-bot {
+      margin-top: 4rem;
+      background: #e0f2fe;
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
   </style>
 </head>
 <body>
 
   <!-- HERO SECTION -->
-  <header class="hero">
-    <video autoplay muted loop playsinline id="beachVideo">
-      <source src="https://cdn.coverr.co/videos/coverr-waves-in-the-sand-0705/1080p.mp4" type="video/mp4">
-    </video>
-    <div class="logo">
-      <div class="typing-title">TripPilot</div>
-      <small>by Deju</small>
+  <header>
+    <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" class="floating-pin pin-japan" alt="Japan Pin">
+    <img src="https://cdn-icons-png.flaticon.com/512/252/252025.png" class="floating-pin pin-seattle" alt="Seattle Pin">
+    <div class="hero-content">
+      <h1>TripPilot</h1>
+      <p>Built by Deju 🔥 — Your Smart Travel Companion</p>
     </div>
   </header>
 
-  <!-- MAIN SECTION -->
+  <!-- MAIN CONTENT -->
   <main>
-    <h2>Plan Your Trip</h2>
-    <div class="trip-form">
+    <div class="form-glass">
+      <h2>Plan Your Itinerary</h2>
       <select id="destination">
         <option value="Japan">Japan</option>
         <option value="Seattle">Seattle</option>
@@ -123,10 +169,15 @@
       <button onclick="generateItinerary()">Generate Itinerary</button>
     </div>
 
-    <div class="results" id="itineraryOutput"></div>
+    <div class="itinerary" id="itineraryOutput"></div>
+
+    <div class="deju-bot">
+      <h3>DejuBot 🤖</h3>
+      <p>Hey there! I’m here to help. Ask me anything about your trip!</p>
+    </div>
   </main>
 
-  <!-- SCRIPT SECTION -->
+  <!-- SCRIPT -->
   <script>
     function generateItinerary() {
       const dest = document.getElementById("destination").value;
@@ -140,32 +191,33 @@
       }
 
       const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-      let plan = "<h3>Your " + days + "-Day Itinerary for " + dest + "</h3><ul>";
+      let html = `<h2>Your ${days}-Day Trip to ${dest}</h2>`;
 
-      const activities = {
+      const ideas = {
         Japan: [
-          "Visit Tokyo Tower and Shibuya Crossing",
-          "Explore Kyoto’s ancient temples",
-          "Take a day trip to Mount Fuji",
-          "Enjoy sushi night in Osaka",
-          "Relax in a traditional Onsen (hot spring)"
+          "🚅 Ride the bullet train to Kyoto",
+          "🍣 Sushi experience in Tokyo",
+          "🗻 Day trip to Mount Fuji",
+          "🌸 Visit temples and cherry blossoms",
+          "🏯 Explore Osaka Castle"
         ],
         Seattle: [
-          "Visit the Space Needle and Chihuly Garden",
-          "Shop at Pike Place Market",
-          "Explore the Museum of Pop Culture",
-          "Take a ferry to Bainbridge Island",
-          "Hike around Mount Rainier"
+          "🗼 View from Space Needle",
+          "🎨 Visit Museum of Pop Culture",
+          "🌲 Walk Green Lake Trail",
+          "🛍️ Pike Place Market shopping",
+          "🌄 Mount Rainier day hike"
         ]
       };
 
+      html += "<div>";
       for (let i = 0; i < days; i++) {
-        const activity = activities[dest][i % activities[dest].length];
-        plan += `<li>Day ${i+1}: ${activity}</li>`;
+        const plan = ideas[dest][i % ideas[dest].length];
+        html += `<div class="day-card"><strong>Day ${i + 1}</strong>: ${plan}</div>`;
       }
+      html += "</div>";
 
-      plan += "</ul>";
-      output.innerHTML = plan;
+      output.innerHTML = html;
     }
   </script>
 
