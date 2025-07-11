@@ -30,11 +30,22 @@
     header h1 {
       font-size: 2rem;
       cursor: pointer;
-      animation: fadeIn 1s ease-in-out;
+      animation: bounceGlow 2s infinite;
     }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(-20px);}
-      to {opacity: 1; transform: translateY(0);}
+    @keyframes bounceGlow {
+      0%, 100% { transform: translateY(0); text-shadow: 0 0 10px orange; }
+      50% { transform: translateY(-5px); text-shadow: 0 0 20px red; }
+    }
+    .floating-pin {
+      position: absolute;
+      animation: float 6s ease-in-out infinite;
+      width: 50px;
+    }
+    .pin-japan { top: 20%; left: 10%; }
+    .pin-seattle { top: 30%; right: 10%; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     .planner {
       text-align: center;
@@ -45,6 +56,11 @@
       margin: 0.5rem;
       padding: 0.7rem;
       font-size: 1rem;
+    }
+    .planner button:hover {
+      background: #333;
+      color: white;
+      cursor: pointer;
     }
     .itinerary {
       padding: 2rem;
@@ -64,26 +80,51 @@
     .popular-places img {
       width: 100%;
       border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    .popular-places img:hover {
+      transform: scale(1.05);
+    }
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #222;
+      color: white;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
 
-<div class="language-switcher">
-  <select onchange="alert('Language switcher is coming soon!')">
-    <option value="en">🌐 English</option>
-    <option value="jp">🇯🇵 Japanese</option>
-  </select>
-</div>
+<!-- Floating Pins -->
+<img src="https://i.imgur.com/zzFFyij.png" alt="Japan Pin" class="floating-pin pin-japan">
+<img src="https://i.imgur.com/5DGPlCi.png" alt="Seattle Pin" class="floating-pin pin-seattle">
 
+<!-- TripPilot Title -->
 <header>
   <h1 onclick="location.href='/'">TripPilot 🔥</h1>
 </header>
 
-<div class="planner">
-  <h2>Start Your Trip Plan</h2>
-  <input type="date" id="tripDate" />
-  <input type="number" id="budget" placeholder="Enter budget ($)" />
+<!-- Planner -->
+<section class="planner">
+  <h2>Plan Your Trip</h2>
+  <input type="date" id="tripDate">
+  <input type="number" id="budget" placeholder="Enter your budget">
   <select id="destination">
     <option value="">Choose Destination</option>
     <option value="Japan">Japan</option>
@@ -91,13 +132,15 @@
   </select>
   <button onclick="generateItinerary()">Generate Itinerary</button>
   <p id="message" style="color:red;"></p>
-</div>
+</section>
 
+<!-- Itinerary Section -->
 <section class="itinerary">
-  <h2>Your Itinerary</h2>
+  <h2>Your Trip Itinerary</h2>
   <div id="itineraryResults"></div>
 </section>
 
+<!-- Popular Places -->
 <section class="popular-places">
   <h2 style="text-align:center">Popular Places</h2>
   <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
@@ -120,16 +163,24 @@
   </div>
 </section>
 
-<!-- Bot Button + Script -->
-<button class="bot-button" onclick="toggleBot()">💬</button>
-<div class="dejubot" id="dejubot">
-  <div class="dejubot-header">DejuBot 🤖</div>
-  <div class="dejubot-messages" id="botMessages"></div>
-  <div class="dejubot-input">
-    <input type="text" id="userInput" placeholder="Ask me something..." />
+<!-- Scroll to Top Button -->
+<button class="scroll-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
+
+<!-- DejuBot Chat UI -->
+<div id="dejubot" style="display:none; flex-direction: column; position: fixed; bottom: 80px; right: 30px; background: white; width: 300px; height: 400px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index:999;">
+  <div style="background:#333; color:white; padding:0.5rem; border-top-left-radius:10px; border-top-right-radius:10px;">DejuBot 🤖</div>
+  <div id="botMessages" style="padding:0.5rem; overflow-y:auto; flex-grow:1;"></div>
+  <div style="display:flex;">
+    <input type="text" id="userInput" placeholder="Ask me something..." style="flex:1; padding:0.5rem;">
     <button onclick="sendBotMessage()">Send</button>
   </div>
 </div>
+<button onclick="toggleBot()" style="position:fixed; bottom:30px; left:30px; background:#ff6600; color:white; border:none; border-radius:50%; width:50px; height:50px; font-size:1.5rem; cursor:pointer; z-index:1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">💬</button>
+
+<!-- Footer -->
+<footer>
+  © 2025 TripPilot — Built by Deju 🔥
+</footer>
 
 <script>
   function generateItinerary() {
@@ -138,10 +189,8 @@
     const date = document.getElementById('tripDate').value;
     const results = document.getElementById('itineraryResults');
     const message = document.getElementById('message');
-
     results.innerHTML = '';
     message.textContent = '';
-
     if (!budget || !dest || !date) {
       message.textContent = "Please fill all fields.";
       return;
@@ -150,7 +199,6 @@
       message.textContent = "Budget too low 😔 Try increasing it for better experience!";
       return;
     }
-
     const places = {
       Japan: ['Tokyo', 'Kyoto', 'Osaka'],
       Seattle: ['Space Needle', 'Pike Place', 'Mount Rainier']
@@ -167,7 +215,6 @@
         'https://cdn.pixabay.com/photo/2017/05/06/00/47/mount-rainier-2281224_1280.jpg'
       ]
     };
-
     for (let i = 0; i < 3; i++) {
       results.innerHTML += `
         <div class="itinerary-card">
@@ -178,23 +225,18 @@
       `;
     }
   }
-
   function toggleBot() {
     const bot = document.getElementById("dejubot");
     bot.style.display = bot.style.display === "flex" ? "none" : "flex";
   }
-
   function sendBotMessage() {
     const input = document.getElementById("userInput");
     const messageBox = document.getElementById("botMessages");
     const userText = input.value.trim();
-
     if (!userText) return;
     messageBox.innerHTML += `<div><strong>You:</strong> ${userText}</div>`;
     input.value = "";
-
     messageBox.innerHTML += `<div><em>DejuBot is typing</em> <span>.</span><span>.</span><span>.</span></div>`;
-
     setTimeout(() => {
       messageBox.innerHTML += `<div><strong>DejuBot:</strong> ${
         userText.toLowerCase().includes("japan") ? 
