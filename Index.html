@@ -5,28 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TripPilot by Deju</title>
   <style>
+    * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
-      margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f5f5;
+      background: #f5f5f5;
       color: #333;
       overflow-x: hidden;
     }
     header {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.8);
       color: white;
-      padding: 1rem;
       text-align: center;
+      padding: 1rem;
     }
     header h1 {
       font-size: 2rem;
-      margin: 0;
-      animation: fadeInDown 1s ease-in-out;
       cursor: pointer;
+      animation: fadeIn 1s ease-in-out;
     }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
     }
     .hero {
       position: relative;
@@ -35,17 +34,15 @@
     }
     .hero video {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       object-fit: cover;
       z-index: -1;
     }
     .hero-content {
       position: relative;
-      text-align: center;
       color: white;
+      text-align: center;
       top: 40%;
       transform: translateY(-50%);
     }
@@ -54,102 +51,33 @@
       margin: 0;
     }
     .planner {
-      background: white;
-      padding: 2rem;
-      text-align: center;
-    }
-    .planner input,
-    .planner select,
-    .planner button {
-      padding: 0.5rem;
-      margin: 0.5rem;
-    }
-    .itinerary {
-      padding: 2rem;
-    }
-    .itinerary h3 {
-      text-align: center;
-    }
-    .itinerary-card {
-      background: white;
-      border-radius: 10px;
-      padding: 1rem;
-      margin: 1rem auto;
-      max-width: 600px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    footer {
-      background: #000;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-    }
-    .fire {
-      display: inline-block;
-      animation: flicker 1s infinite alternate;
-    }
-    @keyframes flicker {
-      from { color: #ff5722; }
-      to { color: #ffc107; }
-    }
-
-    .how-it-works {
       background: #fff;
-      padding: 3rem 1rem;
       text-align: center;
+      padding: 2rem;
     }
-    .how-it-works h2 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      font-family: 'Playfair Display', serif;
+    .planner input, .planner select, .planner button {
+      margin: 0.5rem;
+      padding: 0.7rem;
+      font-size: 1rem;
     }
-    .experience-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.2rem;
-      max-width: 900px;
-      margin: 0 auto;
+    .loading-spinner {
+      display: none;
+      margin-top: 1rem;
     }
-    .experience-card {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+    .loading-spinner span {
+      display: inline-block;
+      animation: blink 1s infinite;
     }
-    .experience-card:hover {
-      transform: scale(1.05);
+    .loading-spinner span:nth-child(2) {
+      animation-delay: 0.2s;
     }
-    .experience-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .loading-spinner span:nth-child(3) {
+      animation-delay: 0.4s;
     }
-    .experience-label {
-      position: absolute;
-      bottom: 8px;
-      left: 8px;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 4px 8px;
-      border-radius: 8px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      color: #111;
-      backdrop-filter: blur(4px);
-    }
-
-    @media (max-width: 500px) {
-      .experience-card {
-        width: 100px;
-        height: 100px;
-      }
-      .how-it-works h2 {
-        font-size: 2rem;
-      }
+    @keyframes blink {
+      0% {opacity: 0.2;}
+      50% {opacity: 1;}
+      100% {opacity: 0.2;}
     }
   </style>
 </head>
@@ -161,7 +89,7 @@
 
 <div class="hero">
   <video autoplay muted loop>
-    <source src="https://cdn.pixabay.com/video/2018/10/17/20336-297212107_large.mp4" type="video/mp4">
+    <source src="https://cdn.pixabay.com/video/2018/10/17/20336-297212107_large.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
   <div class="hero-content">
@@ -180,44 +108,38 @@
   </select>
   <button onclick="generateItinerary()">Generate Itinerary</button>
   <div id="message" style="margin-top: 1rem; color: red;"></div>
+  <div class="loading-spinner" id="loading">
+    <span>.</span><span>.</span><span>.</span>
+  </div>
 </section>
-
 <section class="itinerary">
   <h3>Your Trip Itinerary</h3>
   <div id="itineraryResults"></div>
 </section>
 
 <!-- HOW IT WORKS SECTION -->
-<section class="how-it-works">
+<section class="how-it-works" style="text-align:center; padding: 2rem; background: #fff;">
   <h2>How it Works</h2>
-  <div class="experience-grid">
-    <div class="experience-card">
-      <img src="https://cdn.pixabay.com/photo/2020/03/13/20/07/beach-4927492_1280.jpg" alt="Beach">
-      <div class="experience-label">🏖️ Beach</div>
+  <div class="experience-grid" style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem;">
+    <div class="experience-card" style="width:120px; height:120px; border-radius:15px; overflow:hidden; position:relative;">
+      <img src="https://cdn.pixabay.com/photo/2020/03/13/20/07/beach-4927492_1280.jpg" alt="Beach" style="width:100%; height:100%; object-fit:cover;">
+      <div class="experience-label" style="position:absolute; bottom:8px; left:8px; background:white; padding:3px 6px; border-radius:8px; font-size:0.75rem;">🏖️ Beach</div>
     </div>
     <div class="experience-card">
       <img src="https://cdn.pixabay.com/photo/2017/01/20/00/30/spa-1995066_1280.jpg" alt="Spa">
-      <div class="experience-label">💆 Spa / Wellness</div>
+      <div class="experience-label">💆 Spa</div>
     </div>
     <div class="experience-card">
-      <img src="https://cdn.pixabay.com/photo/2020/02/04/19/59/fine-dining-4819156_1280.jpg" alt="Fine Dining">
-      <div class="experience-label">🍽️ Fine Dining</div>
+      <img src="https://cdn.pixabay.com/photo/2020/02/04/19/59/fine-dining-4819156_1280.jpg" alt="Dining">
+      <div class="experience-label">🍽️ Dining</div>
     </div>
     <div class="experience-card">
       <img src="https://cdn.pixabay.com/photo/2020/03/27/17/58/jungle-4974603_1280.jpg" alt="Wildlife">
       <div class="experience-label">🐾 Wildlife</div>
     </div>
     <div class="experience-card">
-      <img src="https://cdn.pixabay.com/photo/2016/08/09/15/53/sea-1583682_1280.jpg" alt="Water Sports">
-      <div class="experience-label">🌊 Water Sports</div>
-    </div>
-    <div class="experience-card">
       <img src="https://cdn.pixabay.com/photo/2016/09/09/06/31/hotel-1651053_1280.jpg" alt="Resorts">
       <div class="experience-label">🏨 Resorts</div>
-    </div>
-    <div class="experience-card">
-      <img src="https://cdn.pixabay.com/photo/2017/02/15/10/39/architecture-2062760_1280.jpg" alt="Historical Tours">
-      <div class="experience-label">🏛️ Historical Tours</div>
     </div>
     <div class="experience-card">
       <img src="https://cdn.pixabay.com/photo/2016/11/21/16/03/bike-1845713_1280.jpg" alt="Cycling">
@@ -229,11 +151,59 @@
     </div>
   </div>
 </section>
+<!-- POPULAR PLACES SECTION -->
+<section class="popular-places" style="background:#f8f8f8; padding:2rem;">
+  <h2 style="text-align:center;">Popular Places</h2>
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem;">
+    <!-- Japan -->
+    <div style="background:white; border-radius:10px; overflow:hidden; width:280px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+      <img src="https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg" alt="Tokyo" style="width:100%; height:180px; object-fit:cover;">
+      <div style="padding:1rem;">
+        <h4>Tokyo, Japan</h4>
+        <p>From $120/day</p>
+      </div>
+    </div>
+    <div style="background:white; border-radius:10px; overflow:hidden; width:280px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+      <img src="https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg" alt="Kyoto" style="width:100%; height:180px; object-fit:cover;">
+      <div style="padding:1rem;">
+        <h4>Kyoto, Japan</h4>
+        <p>From $95/day</p>
+      </div>
+    </div>
+    <!-- Seattle -->
+    <div style="background:white; border-radius:10px; overflow:hidden; width:280px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+      <img src="https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg" alt="Seattle" style="width:100%; height:180px; object-fit:cover;">
+      <div style="padding:1rem;">
+        <h4>Seattle, WA</h4>
+        <p>From $150/day</p>
+      </div>
+    </div>
+    <div style="background:white; border-radius:10px; overflow:hidden; width:280px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+      <img src="https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg" alt="Pike Place" style="width:100%; height:180px; object-fit:cover;">
+      <div style="padding:1rem;">
+        <h4>Pike Place Market</h4>
+        <p>From $80/day</p>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- DEJUBOT CHAT -->
+<button class="bot-button" onclick="toggleBot()">💬</button>
+<div class="dejubot" id="dejubot">
+  <div class="dejubot-header">DejuBot 🤖</div>
+  <div class="dejubot-messages" id="botMessages"></div>
+  <div class="dejubot-input">
+    <input type="text" id="userInput" placeholder="Ask me something..." />
+    <button onclick="sendBotMessage()">Send</button>
+  </div>
+</div>
+<!-- FOOTER -->
 <footer>
   <p>© 2025 TripPilot by Deju <span class="fire">🔥</span></p>
 </footer>
 
+<!-- JAVASCRIPT -->
 <script>
   function generateItinerary() {
     const budget = parseInt(document.getElementById('budget').value);
@@ -241,49 +211,81 @@
     const date = document.getElementById('tripDate').value;
     const results = document.getElementById('itineraryResults');
     const message = document.getElementById('message');
+    const loading = document.getElementById('loading');
+    
     results.innerHTML = '';
     message.textContent = '';
 
     if (!budget || !dest || !date) {
-      message.textContent = "Please fill all fields to generate your trip.";
+      message.textContent = "Please fill all fields.";
       return;
     }
 
     if (budget < 200) {
-      message.textContent = "Budget too low 😔 Try increasing it for a better experience!";
+      message.textContent = "Budget too low 😔 Try increasing it for better experience!";
       return;
     }
 
-    const days = 3;
-    const locations = {
-      Japan: ['Tokyo', 'Kyoto', 'Osaka'],
-      Seattle: ['Space Needle', 'Pike Place', 'Mount Rainier']
-    };
+    loading.style.display = "block";
 
-    const photos = {
-      Japan: [
-        'https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg',
-        'https://cdn.pixabay.com/photo/2017/01/13/11/14/osaka-1972813_1280.jpg'
-      ],
-      Seattle: [
-        'https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg',
-        'https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg',
-        'https://cdn.pixabay.com/photo/2017/05/06/00/47/mount-rainier-2281224_1280.jpg'
-      ]
-    };
+    setTimeout(() => {
+      loading.style.display = "none";
+      const places = {
+        Japan: ['Tokyo', 'Kyoto', 'Osaka'],
+        Seattle: ['Space Needle', 'Pike Place', 'Mount Rainier']
+      };
+      const photos = {
+        Japan: [
+          'https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg',
+          'https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg',
+          'https://cdn.pixabay.com/photo/2017/01/13/11/14/osaka-1972813_1280.jpg'
+        ],
+        Seattle: [
+          'https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg',
+          'https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg',
+          'https://cdn.pixabay.com/photo/2017/05/06/00/47/mount-rainier-2281224_1280.jpg'
+        ]
+      };
 
-    for (let i = 0; i < days; i++) {
-      const loc = locations[dest][i];
-      const img = photos[dest][i];
-      results.innerHTML += `
-        <div class="itinerary-card">
-          <h4>Day ${i+1} - ${loc}</h4>
-          <img src="${img}" alt="${loc}" style="width:100%; border-radius:10px; margin-top:10px;">
-          <p>Explore ${loc} with local guides, food, and culture!</p>
-        </div>
-      `;
-    }
+      for (let i = 0; i < 3; i++) {
+        results.innerHTML += `
+          <div class="itinerary-card">
+            <h4>Day ${i+1}: ${places[dest][i]}</h4>
+            <img src="${photos[dest][i]}" style="width:100%; border-radius:10px; margin-top:10px;">
+            <p>Explore ${places[dest][i]} with local food, culture, and sights!</p>
+          </div>
+        `;
+      }
+    }, 1500);
+  }
+
+  function toggleBot() {
+    const bot = document.getElementById("dejubot");
+    bot.style.display = bot.style.display === "flex" ? "none" : "flex";
+  }
+
+  function sendBotMessage() {
+    const input = document.getElementById("userInput");
+    const messageBox = document.getElementById("botMessages");
+    const userText = input.value.trim();
+
+    if (!userText) return;
+
+    messageBox.innerHTML += `<div><strong>You:</strong> ${userText}</div>`;
+    input.value = "";
+
+    messageBox.innerHTML += `<div><em>DejuBot is typing</em> <span>.</span><span>.</span><span>.</span></div>`;
+    
+    setTimeout(() => {
+      messageBox.innerHTML += `<div><strong>DejuBot:</strong> ${
+        userText.toLowerCase().includes("japan") ? 
+        "Japan is full of rich culture, sushi, and temples! 🍣⛩️" :
+        userText.toLowerCase().includes("seattle") ? 
+        "Seattle is rainy but magical! Check out Pike Place and the Space Needle. ☕🗼" :
+        "That’s a great question! I’d love to help you explore."
+      }</div>`;
+      messageBox.scrollTop = messageBox.scrollHeight;
+    }, 1200);
   }
 </script>
 
