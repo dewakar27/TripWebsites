@@ -5,44 +5,42 @@
   <title>TripPilot by Deju</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --navy: #1E3A8A;
-      --coral: #FF6B6B;
-      --sand: #FDE68A;
-      --white: #F9FAFB;
+    :root { --navy:#1E3A8A; --coral:#FF6B6B; --sand:#FDE68A; --white:#F9FAFB; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:var(--white); color:#333; }
+    header.hero {
+      position:relative; height:100vh;
+      background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden;
     }
-    * { box-sizing: border-box; margin:0; padding:0; }
-    body { font-family: 'Inter', sans-serif; background: var(--white); color:#333; }
-    header.hero { position: relative; height:100vh; background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
     header.hero::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(30,58,138,0.5); }
-    header .logo { position: relative; font-family:'Poppins', sans-serif; font-size:3rem; color:#fff; z-index:1; }
-    header .logo span.plane { display:inline-block; margin-right:10px; transform: translateX(-100px); opacity:0; animation:flyIn 1.5s forwards; }
-    header .logo span.text { opacity:0; animation:fadeUp 1s 1.5s forwards; }
-    header .logo small { display:block; font-size:1rem; color: #FDE68A; margin-top:0.5rem; opacity:0; animation:fadeUp 1s 2.2s forwards; }
-    @keyframes flyIn { to { transform: translateX(0); opacity:1; } }
-    @keyframes fadeUp { to { transform: translateY(0); opacity:1; } from { transform: translateY(20px); } }
-    header.hero button { margin-top:1.5rem; padding:1rem 2rem; font-size:1.1rem; background:var(--coral); color:#fff; border:none; border-radius:5px; cursor:pointer; animation:popIn 1s 2.5s forwards; opacity:0; }
-    @keyframes popIn { to { opacity:1; transform: scale(1); } from { transform: scale(0.8); } }
-
+    header .logo { position:relative; font-family:'Poppins',sans-serif; color:#fff; font-size:3rem; z-index:1; }
+    header .logo .plane { display:inline-block; margin-right:10px; transform:translateX(-100px); opacity:0; animation:flyIn 1.5s forwards; }
+    header .logo .text { opacity:0; animation:fadeUp 1s 1.5s forwards; }
+    header .logo small { display:block; font-size:1rem; color:var(--sand); margin-top:0.5rem; opacity:0; animation:fadeUp 1s 2.2s forwards; }
+    @keyframes flyIn { to { transform:translateX(0); opacity:1; } }
+    @keyframes fadeUp { to { transform:translateY(0); opacity:1; } from { transform:translateY(20px); } }
+    header.hero button { margin-top:1.5rem; padding:1rem 2rem; background:var(--coral); color:#fff; border:none; border-radius:5px; font-size:1.1rem; cursor:pointer; animation:popIn 1s 2.5s forwards; opacity:0; }
+    @keyframes popIn { to { opacity:1; transform:scale(1); } from { opacity:0; transform:scale(0.8); } }
     main { padding:2rem 1rem; max-width:800px; margin:0 auto; }
-    main section { margin-bottom:3rem; }
-    h2 { font-family:'Poppins', sans-serif; color:var(--navy); margin-bottom:1rem; }
+    h2 { font-family:'Poppins',sans-serif; color:var(--navy); margin-bottom:1rem; }
     select, input { width:100%; padding:.7rem; margin:.5rem 0 1rem; border-radius:5px; border:1px solid #ccc; font-size:1rem; }
-    .btn { background:var(--navy); color:#fff; padding:.8rem 1.2rem; border:none; border-radius:5px; cursor:pointer; font-weight:600; transition:0.2s; }
+    .btn { background:var(--navy); color:#fff; padding:.8rem 1.2rem; font-weight:600; border:none; border-radius:5px; cursor:pointer; transition:0.2s; }
     .btn:hover { background:var(--coral); }
-
-    .day-card { display:flex; flex-direction:column; background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; margin:1rem 0; }
+    .country-btn { flex:1; background:var(--sand); color:#111; font-weight:bold; font-size:1.1rem; padding:.8rem; border:2px solid var(--navy); border-radius:8px; cursor:pointer; transition:0.3s; }
+    .country-btn:hover { background:var(--coral); color:#fff; }
+    .day-card { background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); margin:1rem 0; overflow:hidden; }
     .day-card img { width:100%; height:160px; object-fit:cover; }
     .day-content { padding:1rem; }
-    .day-content h4 { margin-bottom:.5rem; font-family:'Poppins', sans-serif; color:var(--navy); }
-
+    .day-content h4 { margin-bottom:.5rem; font-family:'Poppins',sans-serif; color:var(--navy); }
+    .total { margin:1rem 0; font-weight:600; font-size:1.1rem; }
     .footer { text-align:center; color:#555; font-size:.9rem; margin:4rem 0 1rem; }
-
+    .fire-emoji { display:inline-block; animation:flamePulse 1.2s infinite ease-in-out; }
+    @keyframes flamePulse { 0%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:.8}100%{transform:scale(1);opacity:1}}
     #loader { position:fixed; width:100%; height:100%; background:var(--navy); display:flex; align-items:center; justify-content:center; flex-direction:column; z-index:9999; }
     .spinner { border:6px solid #f3f3f3; border-top:6px solid var(--coral); border-radius:50%; width:60px; height:60px; animation:spin 1s linear infinite; margin-bottom:1rem; }
-    @keyframes spin { to{ transform:rotate(360deg);} }
-
-    #dejuChat { position:fixed; bottom:90px; right:20px; width:320px; max-height:420px; background:#fff; border:2px solid var(--navy); border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.2); display:none; flex-direction:column; overflow:hidden; z-index:9999; }
+    @keyframes spin { to{transform:rotate(360deg);} }
+    #dejuChat { position:fixed; bottom:90px; right:20px; width:320px; max-height:420px; background:#fff; border:2px solid var(--navy); border-radius:10px; display:none; flex-direction:column; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:9999; }
     .chat-header { background:var(--navy); color:#fff; padding:.7rem; text-align:center; font-weight:600; }
     .chat-body { padding:1rem; flex-grow:1; overflow-y:auto; background:#f9f9f9; font-size:.95rem; }
     .chat-input-area { display:flex; border-top:1px solid #ccc; }
@@ -51,17 +49,16 @@
     .bot-msg, .user-msg { margin-bottom:.6rem; padding:.6rem; border-radius:8px; max-width:90%; animation:fadeMsg .4s; }
     .bot-msg { background:#e0ecff; align-self:flex-start; }
     .user-msg { background:#d1ffd1; align-self:flex-end; }
-    @keyframes fadeMsg { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes fadeMsg { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
     #toggleChat { position:fixed; bottom:20px; right:20px; background:var(--navy); color:#fff; border:none; border-radius:50%; width:50px; height:50px; font-size:24px; cursor:pointer; z-index:10000; }
-
     @media(max-width:768px){
-      header.hero button { width:80%; }
+      header.hero button, .country-btn { width:90%; }
       main, .day-card, .planner { width:90%; margin:0 auto; }
       #dejuChat { width:90%; right:5%; }
     }
   </style>
 </head>
-<body>
+<body id="top">
 <div id="loader"><div class="spinner"></div><p style="color:#fff;font-size:1.2rem;">Loading TripPilot...</p></div>
 
 <header class="hero">
@@ -74,6 +71,10 @@
 <main>
   <section class="planner" id="planner">
     <h2>Plan Your Trip</h2>
+    <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+      <button class="country-btn" onclick="selectCountry('Japan')">🇯🇵 Japan</button>
+      <button class="country-btn" onclick="selectCountry('Seattle')">🇺🇸 Seattle</button>
+    </div>
     <label>Destination:</label>
     <select id="destination"><option value="">--Select--</option><option>Japan</option><option>Seattle</option></select>
     <label>Days (2–7):</label>
@@ -95,73 +96,87 @@
     <div class="bot-msg">Hello traveler! Tap the form above or ask “Plan 3 days in Japan” ✨</div>
   </div>
   <div class="chat-input-area">
-    <input type="text" id="userInput" placeholder="Ask me...">
-    <button onclick="sendMessage()">Send</button>
+    <input type="text" id="userInput" placeholder="Ask me..."><button onclick="sendMessage()">Send</button>
   </div>
 </div>
 
-<div class="footer">Built by <strong>Deju</strong> ❤️</div>
+<audio id="flameSound" preload="auto">
+  <source src="https://www.soundjay.com/nature/fireplace-1.mp3" type="audio/mpeg">
+</audio>
+
+<div class="footer">
+  Built by <strong>Deju <span class="fire-emoji">🔥</span></strong>  |  <a href="#top" style="text-decoration:none;color:inherit;font-weight:bold;">© 2025 TripPilot</a>
+</div>
 
 <script>
-  window.addEventListener("load",()=>{setTimeout(()=>{loader.style.display="none";},1500);});
-  function scrollToPlanner(){document.getElementById("planner").scrollIntoView({behavior:"smooth"});}
-  document.getElementById("toggleChat").onclick=()=>{const c=document.getElementById("dejuChat");c.style.display=(c.style.display==="flex"?"none":"flex");};
+  window.addEventListener("load",()=>{setTimeout(()=>{document.getElementById('loader').style.display='none';},1500);});
+  function scrollToPlanner(){document.getElementById('planner').scrollIntoView({behavior:'smooth'});}
+  document.getElementById('toggleChat').onclick=()=>{const c=document.getElementById('dejuChat');c.style.display=(c.style.display==='flex'?'none':'flex');};
 
-  let currentDest="", currentDays=0;
+  document.querySelector('.fire-emoji').addEventListener('mouseenter',()=>{
+    const flame=document.getElementById('flameSound'); flame.currentTime=0; flame.play();
+  });
+
+  let currentDest='', currentDays=0;
   function buildPlan(){
-    currentDest=document.getElementById("destination").value;
-    currentDays=parseInt(document.getElementById("days").value);
-    if(!currentDest||!currentDays){alert("Please fill destination and days.");return;}
-    const flight=parseFloat(document.getElementById("flightCost").value)||0;
-    const hotel=parseFloat(document.getElementById("hotelCost").value)||0;
-    const meal=parseFloat(document.getElementById("mealBudget").value)||0;
+    currentDest=document.getElementById('destination').value;
+    currentDays=parseInt(document.getElementById('days').value);
+    if(!currentDest||!currentDays){alert('Please fill destination and days.');return;}
+    const flight=parseFloat(document.getElementById('flightCost').value)||0;
+    const hotel=parseFloat(document.getElementById('hotelCost').value)||0;
+    const meal=parseFloat(document.getElementById('mealBudget').value)||0;
     const total=(flight+(hotel*currentDays)+(meal*currentDays)).toFixed(2);
-    document.getElementById("totalBudget").innerText=`Estimated Trip Budget: $${total}`;
+    document.getElementById('totalBudget').innerText=`Estimated Trip Budget: $${total}`;
     showItineraryCards(currentDest,currentDays);
   }
-
   function rerollItinerary(){if(currentDest&&currentDays) showItineraryCards(currentDest,currentDays);}
+  function selectCountry(c){document.getElementById('destination').value=c;document.getElementById('destination').scrollIntoView({behavior:'smooth'});document.getElementById('destination').style.border='2px solid var(--coral)';setTimeout(()=>{document.getElementById('destination').style.border='';},1500);}
 
   function generateCreativeItinerary(dest,days){
-    const japanPlaces=["Tokyo Skytree & ramen","Shibuya Crossing & shops","Mt Fuji + Lake Kawaguchi","Kyoto shrines & bamboo forest","Osaka street‑food night","Hiroshima Peace Park","Nara Deer Park"];
-    const seattlePlaces=["Pike Place Market & gum wall","Space Needle + Chihuly Museum","MoPOP & lunch","Mt Rainier day hike","Gas Works Park picnic","Bainbridge ferry trip","Sunset at Kerry Park"];
-    const spots=dest==="Japan"?japanPlaces:seattlePlaces;
-    let out="";
+    const j=["Tokyo Skytree & ramen","Shibuya Crossing & shops","Mt Fuji + Lake Kawaguchi","Kyoto shrines & bamboo forest","Osaka street‑food night","Hiroshima Peace Park","Nara Deer Park"];
+    const s=["Pike Place Market & gum wall","Space Needle + Chihuly Museum","MoPOP & lunch","Mt Rainier day hike","Gas Works Park picnic","Bainbridge ferry trip","Sunset at Kerry Park"];
+    const spots=dest==='Japan'?j:s;
+    let out='';
     for(let i=1;i<=days;i++){const p=spots[Math.floor(Math.random()*spots.length)]; out+=`Day ${i}: ${p}<br>`;}
     return `🗓️ ${dest} Itinerary:<br>${out}`;
   }
 
   function showItineraryCards(dest,days){
-    const cont=document.getElementById("itineraryCards");
-    cont.innerHTML="";
+    const cont=document.getElementById('itineraryCards');
+    cont.innerHTML='';
     const pics={
-      Japan:["https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=800&q=80","https://images.unsplash.com/photo-1504198458649-3128b932d6d3?auto=format&fit=crop&w=800&q=80","https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=800&q=80"],
-      Seattle:["https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=800&q=80","https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=800&q=80","https://images.unsplash.com/photo-1547721064-da6cfb341d50?auto=format&fit=crop&w=800&q=80"]
+      Japan:[
+        "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1504198458649-3128b932d6d3?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=800&q=80"
+      ],
+      Seattle:[
+        "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1547721064-da6cfb341d50?auto=format&fit=crop&w=800&q=80"
+      ]
     };
-    for(let i=1; i<=days; i++){
-      const card=document.createElement("div"); card.className="day-card";
-      const img=document.createElement("img");
-      img.src=pics[dest][(i-1)%pics[dest].length];
-      const c=document.createElement("div"); c.className="day-content";
-      c.innerHTML=`<h4>Day ${i}</h4>${generateCreativeItinerary(dest,1).split("<br>")[1]}`;
-      card.appendChild(img); card.appendChild(c); cont.appendChild(card);
+    for(let i=1;i<=days;i++){
+      const card=document.createElement('div');card.className='day-card';
+      const img=document.createElement('img'); img.src=pics[dest][(i-1)%pics[dest].length];
+      const c=document.createElement('div');c.className='day-content';
+      c.innerHTML=`<h4>Day ${i}</h4>${generateCreativeItinerary(dest,1).split('<br>')[1]}`;
+      card.appendChild(img);card.appendChild(c);cont.appendChild(card);
     }
   }
 
   function sendMessage(){
-    const m=document.getElementById("userInput").value.trim();
-    if(!m) return;
-    const chat=document.getElementById("chatBody");
-    let u=document.createElement("div"); u.className="user-msg"; u.innerText=m; chat.appendChild(u);
-    document.getElementById("userInput").value="";
+    const m=document.getElementById('userInput').value.trim(); if(!m) return;
+    const chat=document.getElementById('chatBody'); let u=document.createElement('div');
+    u.className='user-msg';u.innerText=m;chat.appendChild(u);document.getElementById('userInput').value='';
     setTimeout(()=>{
-      let b=document.createElement("div"); b.className="bot-msg";
-      const l=m.toLowerCase(); const match=m.match(/(\d+)\s*day/); const d=match?parseInt(match[1]):0;
-      if(l.includes("japan")&&d>0) b.innerHTML=generateCreativeItinerary("Japan",d);
-      else if(l.includes("seattle")&&d>0) b.innerHTML=generateCreativeItinerary("Seattle",d);
-      else if(l.includes("help")) b.innerText="Use the form above or ask “Plan 4 days in Japan”";
-      else b.innerText="Hmm, can’t process that. Try: “Plan 3 days in Seattle”";
-      chat.appendChild(b); chat.scrollTop=chat.scrollHeight;
+      let b=document.createElement('div');b.className='bot-msg';
+      const l=m.toLowerCase(), d=(m.match(/(\d+)\s*day/)?parseInt(m.match(/(\d+)\s*day/)[1]):0);
+      if(l.includes('japan')&&d>0) b.innerHTML=generateCreativeItinerary('Japan',d);
+      else if(l.includes('seattle')&&d>0) b.innerHTML=generateCreativeItinerary('Seattle',d);
+      else if(l.includes('help')) b.innerText='Use the form above or ask “Plan 4 days in Japan”';
+      else b.innerText='Hmm, didn’t catch that. Try: “Plan 3 days in Seattle”';
+      chat.appendChild(b);chat.scrollTop=chat.scrollHeight;
     },700);
   }
 </script>
