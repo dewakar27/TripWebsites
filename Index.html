@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TripPilot by Deju</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap" rel="stylesheet">
   <style>
@@ -11,92 +11,95 @@
       --sand:#FDE68A;
       --white:#F9FAFB;
     }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Inter',sans-serif;background:var(--white);color:#333;}
+    * {margin:0;padding:0;box-sizing:border-box;}
+    body {
+      font-family:'Inter',sans-serif;
+      background:var(--white);
+      color:#333;
+      overflow-x:hidden;
+    }
     header.hero {
-      position:relative;height:100vh;overflow:hidden;
+      position:relative;height:100vh;
       display:flex;align-items:center;justify-content:center;text-align:center;
+      overflow:hidden;
     }
-    #beachVideo{
-      position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.6);z-index:-2;
+    #beachVideo {
+      position:absolute;top:0;left:0;width:100%;height:100%;
+      object-fit:cover;z-index:-2;filter:brightness(0.6);
     }
-    header.hero::after{
-      content:'';position:absolute;top:0;left:0;right:0;bottom:0;
-      background:rgba(30,58,138,0.5);z-index:-1;
+    header.hero::after {
+      content:"";position:absolute;top:0;left:0;right:0;bottom:0;
+      background:rgba(30,58,138,0.4);z-index:-1;
     }
-    .logo {position:relative;z-index:1;text-align:center;}
+    .logo {
+      z-index:1;
+    }
     .typing-title {
-      font-family:'Poppins',sans-serif;color:#fff;font-size:3rem;
-      white-space:nowrap;overflow:hidden;border-right:3px solid #fff;
-      width:0;animation:typing 3s steps(20), blinkCursor .5s step-end infinite;
+      font-family:'Poppins',sans-serif;
+      color:#fff;
+      font-size:3rem;
+      white-space:nowrap;
+      overflow:hidden;
+      border-right:3px solid #fff;
+      width:0;
+      animation:typing 3s steps(20,end) 1s forwards, blink .5s step-end infinite;
     }
     @keyframes typing {
       from{width:0;} to{width:14ch;}
     }
-    @keyframes blinkCursor{50%{border-color:transparent;}}
-
-    .logo small {display:block;font-size:1rem;color:var(--sand);margin-top:0.5rem;}
-
-    .pin {position:absolute;width:40px;height:40px;animation:float 4s ease-in-out infinite;}
-    @keyframes float{0%,100%{transform: translateY(0);}50%{transform:translateY(-10px);}}
-
-    .pin img{width:100%;height:100%;}
-
-    header.hero button{
-      margin-top:1.5rem;padding:1rem 2rem;background:var(--coral);
-      color:#fff;border:none;border-radius:5px;font-size:1.1rem;cursor:pointer;
-      z-index:1;animation:fadeInBtn 1s 3.5s forwards;opacity:0;
+    @keyframes blink {50%{border-color:transparent;}}
+    .logo small {
+      display:block;
+      font-size:1rem;
+      color:var(--sand);
+      margin-top:0.5rem;
     }
-    @keyframes fadeInBtn{to{opacity:1;} from{opacity:0;}}
-
-    main{padding:2rem 1rem;max-width:800px;margin:0 auto;}
-    h2{font-family:'Poppins',sans-serif;color:var(--navy);margin-bottom:1rem;}
-    .mode-switch{display:flex;gap:1rem;margin-bottom:1.5rem;}
-    .mode-switch button{flex:1;padding:.8rem;font-weight:600;border:none;border-radius:5px;
-      background:var(--sand);transition:0.3s;}
-    .mode-switch button.active,.mode-switch button:hover{background:var(--coral);color:#fff;}
-    select,input{width:100%;padding:.7rem;margin:.5rem 0 1rem;border:1px solid #ccc;border-radius:5px;font-size:1rem;}
-    .btn{background:var(--navy);color:#fff;padding:.8rem 1.2rem;font-weight:600;border:none;border-radius:5px;cursor:pointer;transition:0.2s;}
-    .btn:hover{background:var(--coral);}
-    .country-btn{flex:1;background:var(--sand);color:#111;font-weight:bold;font-size:1.1rem;padding:.8rem;border:2px solid var(--navy);border-radius:8px;cursor:pointer;transition:0.3s;}
-    .country-btn:hover{background:var(--coral);color:#fff;}
-
-    .day-card{background:rgba(255,255,255,0.7);backdrop-filter:blur(10px);border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin:1rem 0;overflow:hidden;}
-    .day-card img{width:100%;height:160px;object-fit:cover;}
-    .day-content{padding:1rem;}
-    .day-content h4{margin-bottom:.5rem;font-family:'Poppins',sans-serif;color:var(--navy);}
-
-    .total {margin:1rem 0;font-weight:600;font-size:1.1rem;}
-    .footer{text-align:center;color:#555;font-size:.9rem;margin:4rem 0 1rem;}
-    .fire-emoji{display:inline-block;animation:flamePulse 1.2s infinite ease-in-out;}
-    @keyframes flamePulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:.8}100%{transform:scale(1);opacity:1}}
-
-    #dejuChat {position:fixed;bottom:90px;right:20px;width:320px;max-height:420px;
-      background:#fff;border:2px solid var(--navy);border-radius:10px;display:none;
-      flex-direction:column;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:9999;}
-    .chat-header {background:var(--navy);color:#fff;padding:.7rem;text-align:center;font-weight:600;}
-    .chat-body {padding:1rem;flex-grow:1;overflow-y:auto;background:#f9f9f9;font-size:.95rem;}
-    .chat-input-area {display:flex;border-top:1px solid #ccc;}
-    .chat-input-area input{flex:1;padding:.6rem;border:none;font-size:1rem;}
-    .chat-input-area button{background:var(--navy);color:#fff;border:none;padding:0 .8rem;cursor:pointer;}
-    .bot-msg,.user-msg{margin-bottom:.6rem;padding:.6rem;border-radius:8px;max-width:90%;animation:fadeMsg .4s;}
-    .bot-msg{background:#e0ecff;align-self:flex-start;} .user-msg{background:#d1ffd1;align-self:flex-end;}
-    @keyframes fadeMsg{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-    #toggleChat{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;border:none;border-radius:50%;width:50px;height:50px;font-size:24px;cursor:pointer;z-index:10000;}
-    #loader{position:fixed;width:100%;height:100%;background:var(--navy);display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:9999;}
-    .spinner{border:6px solid #f3f3f3;border-top:6px solid var(--coral);border-radius:50%;width:60px;height:60px;animation:spin 1s linear infinite;margin-bottom:1rem;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-
-    @media(max-width:768px){
-      header.hero button,.country-btn{width:90%;}
-      main,.day-card{width:90%;margin:0 auto;}
-      #dejuChat{width:90%;right:5%;}
+    main {
+      padding:2rem;
+      text-align:center;
+    }
+    .trip-form {
+      margin:2rem 0;
+    }
+    input, select {
+      padding:0.5rem;
+      font-size:1rem;
+      margin:0.5rem;
+      border:1px solid #ccc;
+      border-radius:5px;
+    }
+    button {
+      padding:0.5rem 1rem;
+      background:var(--coral);
+      color:#fff;
+      border:none;
+      border-radius:5px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+    .results {
+      margin-top:2rem;
+    }
+    .results h3 {
+      color:var(--navy);
+      margin-bottom:1rem;
+    }
+    .results ul {
+      list-style: none;
+      padding: 0;
+    }
+    .results li {
+      background: #f3f4f6;
+      margin: 0.5rem auto;
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 600px;
     }
   </style>
 </head>
-<body id="top">
-  <div id="loader"><div class="spinner"></div><p style="color:#fff;font-size:1.2rem;">Loading TripPilot...</p></div>
+<body>
 
+  <!-- HERO SECTION -->
   <header class="hero">
     <video autoplay muted loop playsinline id="beachVideo">
       <source src="https://cdn.coverr.co/videos/coverr-waves-in-the-sand-0705/1080p.mp4" type="video/mp4">
@@ -104,148 +107,67 @@
     <div class="logo">
       <div class="typing-title">TripPilot</div>
       <small>by Deju</small>
-      <button onclick="scrollToPlanner()">Start Your Adventure</button>
     </div>
-    <!-- Animated pins -->
-    <div class="pin" style="top:30%;left:20%;"><img src="https://img.icons8.com/emoji/48/000000/pushpin-emoji.png"/></div>
-    <div class="pin" style="top:40%;left:35%;"><img src="https://img.icons8.com/emoji/48/000000/pushpin-emoji.png"/></div>
-    <div class="pin" style="top:25%;right:25%;"><img src="https://img.icons8.com/emoji/48/000000/pushpin-emoji.png"/></div>
   </header>
 
+  <!-- MAIN SECTION -->
   <main>
-    <section class="planner" id="planner">
-      <h2>Plan Your Trip</h2>
-      <div class="mode-switch">
-        <button id="modeManual" class="active" onclick="setMode('manual')">Manual Mode</button>
-        <button id="modeSmart" onclick="setMode('smart')">Smart Suggest</button>
-      </div>
-      <div id="manualInputs">
-        <div style="display:flex;gap:1rem;margin-bottom:1.5rem;">
-          <button class="country-btn" onclick="selectCountry('Japan')">🇯🇵 Japan</button>
-          <button class="country-btn" onclick="selectCountry('Seattle')">🇺🇸 Seattle</button>
-        </div>
-        <label>Destination:</label>
-        <select id="destination"><option value="">--Select--</option><option>Japan</option><option>Seattle</option></select>
-        <label>Total Budget ($):</label>
-        <input type="number" id="totalBudgetInput" placeholder="e.g., 2000">
-        <button class="btn" onclick="buildPlanManual()">Build My Trip Plan</button>
-      </div>
-      <div id="smartInputs" style="display:none;">
-        <label>Total Budget ($):</label>
-        <input type="number" id="smartBudgetInput" placeholder="e.g., 1500">
-        <button class="btn" onclick="buildPlanSmart()">Suggest Me A Trip</button>
-      </div>
-      <div id="calculatedBudget" class="total"></div>
-      <div id="itineraryCards"></div>
-      <button class="btn" onclick="rerollItinerary()">Try a New Plan</button>
-    </section>
+    <h2>Plan Your Trip</h2>
+    <div class="trip-form">
+      <select id="destination">
+        <option value="Japan">Japan</option>
+        <option value="Seattle">Seattle</option>
+      </select>
+      <input type="date" id="startDate" />
+      <input type="date" id="endDate" />
+      <button onclick="generateItinerary()">Generate Itinerary</button>
+    </div>
+
+    <div class="results" id="itineraryOutput"></div>
   </main>
 
-  <button id="toggleChat">💬</button>
-  <div id="dejuChat">
-    <div class="chat-header">DejuBot 🤖 – Travel Assistant</div>
-    <div class="chat-body" id="chatBody">
-      <div class="bot-msg">Hello traveler! Tap the form above or ask “Plan 3 days in Japan” ✨</div>
-    </div>
-    <div class="chat-input-area">
-      <input type="text" id="userInput" placeholder="Ask me..."><button onclick="sendMessage()">Send</button>
-    </div>
-  </div>
+  <!-- SCRIPT SECTION -->
+  <script>
+    function generateItinerary() {
+      const dest = document.getElementById("destination").value;
+      const start = new Date(document.getElementById("startDate").value);
+      const end = new Date(document.getElementById("endDate").value);
+      const output = document.getElementById("itineraryOutput");
 
-  <audio id="flameSound" preload="auto">
-    <source src="https://www.soundjay.com/nature/fireplace-1.mp3" type="audio/mpeg">
-  </audio>
+      if (isNaN(start) || isNaN(end) || start > end) {
+        output.innerHTML = "<p>Please enter valid start and end dates.</p>";
+        return;
+      }
 
-  <div class="footer">
-    Built by <strong>Deju <span class="fire-emoji">🔥</span></strong> &nbsp;|&nbsp;
-    <a href="#top" style="text-decoration:none;color:inherit;font-weight:bold;">© 2025 TripPilot</a>
-  </div>
+      const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+      let plan = "<h3>Your " + days + "-Day Itinerary for " + dest + "</h3><ul>";
 
-<script>
-  window.addEventListener("load",()=>{setTimeout(()=>{document.getElementById('loader').style.display='none';},1500);});
-  function scrollToPlanner(){document.getElementById('planner').scrollIntoView({behavior:'smooth'});}
-  document.getElementById('toggleChat').onclick=()=>{const c=document.getElementById('dejuChat');c.style.display=(c.style.display==='flex'?'none':'flex');};
-  document.querySelector('.fire-emoji').addEventListener('mouseenter',()=>{const f=document.getElementById('flameSound');f.currentTime=0;f.play();});
-  let currentDest='',currentDays=0;
-  function setMode(m){
-    document.getElementById('modeManual').classList.toggle('active',m==='manual');
-    document.getElementById('modeSmart').classList.toggle('active',m==='smart');
-    document.getElementById('manualInputs').style.display=m==='manual'?'block':'none';
-    document.getElementById('smartInputs').style.display=m==='smart'?'block':'none';
-    document.getElementById('calculatedBudget').innerText='';
-    document.getElementById('itineraryCards').innerHTML='';
-  }
-  function buildPlanManual(){
-    currentDest=document.getElementById('destination').value;
-    const budget=parseFloat(document.getElementById('totalBudgetInput').value)||0;
-    if(!currentDest||budget<=0){alert('Select destination and enter budget.');return;}
-    const daily=currentDest==='Japan'?300:250;
-    currentDays=Math.min(Math.floor(budget/daily),7);
-    document.getElementById('calculatedBudget').innerText=`You can travel for ${currentDays} day(s) in ${currentDest}`;
-    showItineraryCards(currentDest,currentDays);
-  }
-  function buildPlanSmart(){
-    const budget=parseFloat(document.getElementById('smartBudgetInput').value)||0;
-    if(budget<=0){alert('Enter a valid budget.');return;}
-    const daysJapan=Math.floor(budget/300), daysSeattle=Math.floor(budget/250);
-    if(daysJapan>=daysSeattle&&daysJapan>=2){currentDest='Japan';currentDays=Math.min(daysJapan,7);}
-    else if(daysSeattle>=2){currentDest='Seattle';currentDays=Math.min(daysSeattle,7);}
-    else{
-      document.getElementById('calculatedBudget').innerHTML=
-        `<div style="padding:1rem;background:#fff5f5;border-left:5px solid var(--coral);border-radius:5px;color:#b91c1c;">
-          😔 Oops! That budget is too low to plan a full trip.<br>
-          Try at least $500 for Seattle or $900 for Japan.
-        </div>`;
-      document.getElementById('itineraryCards').innerHTML=''; return;
+      const activities = {
+        Japan: [
+          "Visit Tokyo Tower and Shibuya Crossing",
+          "Explore Kyoto’s ancient temples",
+          "Take a day trip to Mount Fuji",
+          "Enjoy sushi night in Osaka",
+          "Relax in a traditional Onsen (hot spring)"
+        ],
+        Seattle: [
+          "Visit the Space Needle and Chihuly Garden",
+          "Shop at Pike Place Market",
+          "Explore the Museum of Pop Culture",
+          "Take a ferry to Bainbridge Island",
+          "Hike around Mount Rainier"
+        ]
+      };
+
+      for (let i = 0; i < days; i++) {
+        const activity = activities[dest][i % activities[dest].length];
+        plan += `<li>Day ${i+1}: ${activity}</li>`;
+      }
+
+      plan += "</ul>";
+      output.innerHTML = plan;
     }
-    document.getElementById('calculatedBudget').innerText=`Smart pick: ${currentDest} for ${currentDays} day(s)`;
-    showItineraryCards(currentDest,currentDays);
-  }
-  function rerollItinerary(){if(currentDest&&currentDays) showItineraryCards(currentDest,currentDays);}
-  function selectCountry(c){document.getElementById('destination').value=c;selectCountryScroll();}
-  function selectCountryScroll(){document.getElementById('destination').scrollIntoView({behavior:'smooth'});}
-  function generateCreativeItinerary(dest,days){
-    const j=["Tokyo Skytree & ramen","Shibuya Crossing & shops","Mt Fuji + Lake Kawaguchi","Kyoto shrines & bamboo forest","Osaka street‑food night","Hiroshima Peace Park","Nara Deer Park"];
-    const s=["Pike Place Market & gum wall","Space Needle + Chihuly Museum","MoPOP & lunch","Mt Rainier day hike","Gas Works Park picnic","Bainbridge ferry trip","Sunset at Kerry Park"];
-    const spots=dest==='Japan'?j:s; let out=''; for(let i=1;i<=days;i++){out+=`Day ${i}: ${spots[Math.floor(Math.random()*spots.length)]}<br>`;}
-    return `🗓️ ${dest} Itinerary:<br>${out}`;
-  }
-  function showItineraryCards(dest,days){
-    const cont=document.getElementById('itineraryCards');cont.innerHTML='';
-    const pics={
-      Japan:[
-        "https://cdn.pixabay.com/photo/2018/11/18/19/24/japan-3824482_1280.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/29/10/07/kyoto-1868470_1280.jpg",
-        "https://cdn.pixabay.com/photo/2021/07/14/07/10/japan-6462934_1280.jpg"
-      ],
-      Seattle:[
-        "https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg",
-        "https://cdn.pixabay.com/photo/2020/06/18/17/12/pike-place-market-5312471_1280.jpg",
-        "https://cdn.pixabay.com/photo/2018/07/23/22/52/mount-rainier-3553254_1280.jpg"
-      ]
-    };
-    for(let i=1;i<=days;i++){
-      const card=document.createElement('div');card.className='day-card';
-      const img=document.createElement('img');img.src=pics[dest][(i-1)%pics[dest].length];
-      const c=document.createElement('div');c.className='day-content';
-      c.innerHTML=`<h4>Day ${i}</h4>${generateCreativeItinerary(dest,1).split('<br>')[1]}`;
-      card.appendChild(img);card.appendChild(c);cont.appendChild(card);
-    }
-  }
-  function sendMessage(){
-    const m=document.getElementById('userInput').value.trim(); if(!m) return;
-    const chat=document.getElementById('chatBody');const u=document.createElement('div');
-    u.className='user-msg';u.innerText=m;chat.appendChild(u);document.getElementById('userInput').value='';
-    setTimeout(()=>{
-      const b=document.createElement('div');b.className='bot-msg';
-      const l=m.toLowerCase(),d=(m.match(/(\d+)\s*day/)?parseInt(m.match(/(\d+)\s*day/)[1]):0);
-      if(l.includes('japan')&&d>0) b.innerHTML=generateCreativeItinerary('Japan',d);
-      else if(l.includes('seattle')&&d>0) b.innerHTML=generateCreativeItinerary('Seattle',d);
-      else b.innerText="I can help plan trips for Japan or Seattle! Try 'Plan 3 days in Japan'.";
-      chat.appendChild(b);
-      chat.scrollTop=chat.scrollHeight;
-    },1000);
-  }
-</script>
+  </script>
+
 </body>
 </html>
