@@ -32,6 +32,7 @@
       position: relative;
       background: url('https://i.imgur.com/M6SenXN.jpeg') center center / cover no-repeat fixed;
       height: 100vh;
+      overflow: hidden;
     }
     .hero::after {
       content: "";
@@ -61,79 +62,32 @@
       to {transform: translateY(0); opacity: 1;}
     }
 
-    .planner {
-      background: #fff;
-      text-align: center;
-      padding: 2rem;
+    .floating-image {
+      position: absolute;
+      width: 80px;
+      animation: float 6s ease-in-out infinite;
+      z-index: 2;
+      transition: transform 0.3s ease;
     }
-    .planner input, .planner select, .planner button {
-      margin: 0.5rem;
-      padding: 0.7rem;
-      font-size: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-    .planner button {
-      background-color: #ff5722;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      animation: pulse 2s infinite;
-      transition: transform 0.3s;
-    }
-    .planner button:hover {
-      background-color: #e64a19;
+    .floating-image:hover {
       transform: scale(1.1);
     }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255,87,34,0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(255,87,34,0); }
-      100% { box-shadow: 0 0 0 0 rgba(255,87,34,0); }
-    }
-
-    .floating-pin {
-      position: absolute;
-      animation: float 6s ease-in-out infinite;
-    }
-    .floating-pin img {
-      width: 40px;
-    }
-    .pin1 { top: 20%; left: 10%; }
-    .pin2 { top: 30%; right: 15%; }
-    .pin3 { bottom: 25%; left: 20%; }
+    .float1 { top: 15%; left: 5%; animation-delay: 0s; }
+    .float2 { top: 50%; right: 10%; animation-delay: 1s; }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-15px); }
     }
 
-    .loading-spinner {
-      display: none;
-      margin-top: 1rem;
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
     }
-    .loading-spinner span {
-      display: inline-block;
-      animation: blink 1s infinite;
-    }
-    .loading-spinner span:nth-child(2) { animation-delay: 0.2s; }
-    .loading-spinner span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes blink {
-      0% {opacity: 0.2;}
-      50% {opacity: 1;}
-      100% {opacity: 0.2;}
-    }
-
-    .itinerary-card {
-      background: white;
-      margin: 1rem auto;
-      padding: 1rem;
-      max-width: 600px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     footer {
@@ -147,98 +101,26 @@
 </head>
 <body>
 
-<header>
-  <h1 onclick="location.reload()">TripPilot 🔥</h1>
-</header>
-
 <div class="hero">
-  <div class="floating-pin pin1"><img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="pin"></div>
-  <div class="floating-pin pin2"><img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="pin"></div>
-  <div class="floating-pin pin3"><img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="pin"></div>
+  <a href="#japan"><img src="https://i.imgur.com/zzFFyij.png" class="floating-image float1" alt="Japan Pin"></a>
+  <a href="#seattle"><img src="https://i.imgur.com/5DGPlCi.png" class="floating-image float2" alt="Seattle Pin"></a>
   <div class="hero-content">
     <h2>Plan Your Adventure to Japan or Seattle!</h2>
   </div>
 </div>
 
-<section class="planner">
-  <h3>Start Planning</h3>
-  <input type="date" id="tripDate" />
-  <input type="number" id="budget" placeholder="Enter your budget" />
-  <select id="destination">
-    <option value="">Choose Destination</option>
-    <option value="Japan">Japan</option>
-    <option value="Seattle">Seattle</option>
-  </select>
-  <button onclick="generateItinerary()">Generate Itinerary</button>
-  <div id="message" style="margin-top: 1rem; color: red;"></div>
-  <div class="loading-spinner" id="loading">
-    <span>.</span><span>.</span><span>.</span>
-  </div>
-</section>
-
-<section class="itinerary" style="padding:2rem; background:#fff;">
-  <h3 style="text-align:center;">Your Trip Itinerary</h3>
-  <div id="itineraryResults"></div>
-</section>
-
-<footer>
-  <p>© 2025 TripPilot by Deju <span class="fire">🔥</span></p>
-</footer>
-
 <script>
-function generateItinerary() {
-  const budget = parseInt(document.getElementById('budget').value);
-  const dest = document.getElementById('destination').value;
-  const date = document.getElementById('tripDate').value;
-  const results = document.getElementById('itineraryResults');
-  const message = document.getElementById('message');
-  const loading = document.getElementById('loading');
-
-  results.innerHTML = '';
-  message.textContent = '';
-
-  if (!budget || !dest || !date) {
-    message.textContent = "Please fill all fields.";
-    return;
-  }
-
-  if (budget < 200) {
-    message.textContent = "Budget too low 😔 Try increasing it for better experience!";
-    return;
-  }
-
-  loading.style.display = "block";
-
-  setTimeout(() => {
-    loading.style.display = "none";
-    const places = {
-      Japan: ['Tokyo', 'Kyoto', 'Osaka'],
-      Seattle: ['Space Needle', 'Pike Place', 'Mount Rainier']
-    };
-    const photos = {
-      Japan: [
-        'https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg',
-        'https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg',
-        'https://cdn.pixabay.com/photo/2017/01/13/11/14/osaka-1972813_1280.jpg'
-      ],
-      Seattle: [
-        'https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg',
-        'https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg',
-        'https://cdn.pixabay.com/photo/2017/05/06/00/47/mount-rainier-2281224_1280.jpg'
-      ]
-    };
-
-    for (let i = 0; i < 3; i++) {
-      results.innerHTML += `
-        <div class="itinerary-card">
-          <h4>Day ${i+1}: ${places[dest][i]}</h4>
-          <img src="${photos[dest][i]}" style="width:100%; border-radius:10px; margin-top:10px;">
-          <p>Explore ${places[dest][i]} with local food, culture, and sights!</p>
-        </div>
-      `;
+  window.addEventListener("scroll", function() {
+    const reveals = document.querySelectorAll(".reveal");
+    for (let i = 0; i < reveals.length; i++) {
+      const windowHeight = window.innerHeight;
+      const elementTop = reveals[i].getBoundingClientRect().top;
+      const elementVisible = 150;
+      if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add("active");
+      }
     }
-  }, 1500);
-}
+  });
 </script>
 
 </body>
