@@ -36,6 +36,15 @@
       from {opacity: 0; transform: translateY(-20px);}
       to {opacity: 1; transform: translateY(0);}
     }
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
     .planner {
       text-align: center;
       padding: 2rem;
@@ -45,6 +54,13 @@
       margin: 0.5rem;
       padding: 0.7rem;
       font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+    .planner button:hover {
+      transform: scale(1.05);
+      background: #333;
+      color: white;
+      cursor: pointer;
     }
     .itinerary {
       padding: 2rem;
@@ -64,6 +80,10 @@
     .popular-places img {
       width: 100%;
       border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    .popular-places img:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -76,11 +96,11 @@
   </select>
 </div>
 
-<header>
+<header class="reveal">
   <h1 onclick="location.href='/'">TripPilot 🔥</h1>
 </header>
 
-<div class="planner">
+<div class="planner reveal">
   <h2>Start Your Trip Plan</h2>
   <input type="date" id="tripDate" />
   <input type="number" id="budget" placeholder="Enter budget ($)" />
@@ -93,12 +113,12 @@
   <p id="message" style="color:red;"></p>
 </div>
 
-<section class="itinerary">
+<section class="itinerary reveal">
   <h2>Your Itinerary</h2>
   <div id="itineraryResults"></div>
 </section>
 
-<section class="popular-places">
+<section class="popular-places reveal">
   <h2 style="text-align:center">Popular Places</h2>
   <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
     <div style="width:250px;">
@@ -119,17 +139,6 @@
     </div>
   </div>
 </section>
-
-<!-- Bot Button + Script -->
-<button class="bot-button" onclick="toggleBot()">💬</button>
-<div class="dejubot" id="dejubot">
-  <div class="dejubot-header">DejuBot 🤖</div>
-  <div class="dejubot-messages" id="botMessages"></div>
-  <div class="dejubot-input">
-    <input type="text" id="userInput" placeholder="Ask me something..." />
-    <button onclick="sendBotMessage()">Send</button>
-  </div>
-</div>
 
 <script>
   function generateItinerary() {
@@ -206,6 +215,17 @@
       messageBox.scrollTop = messageBox.scrollHeight;
     }, 1200);
   }
+
+  // Scroll-in animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
 </body>
