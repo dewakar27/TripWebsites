@@ -141,20 +141,20 @@
 </div>
 
 <!-- Map Section -->
-<section class="section" id="map" data-aos="fade-up">
-  <h2 class="section-title">Interactive Map</h2>
-  <div style="display: flex; flex-wrap: wrap;">
-    <div style="flex: 1; min-width: 200px; max-width: 250px; margin-right: 20px;">
+<section class="section" id="map" data-aos="fade-up" style="background: linear-gradient(to bottom right, #f5f7fa, #c3cfe2); padding: 3rem 1rem; border-radius: 15px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+  <h2 class="section-title" style="text-align: center; font-size: 2rem; margin-bottom: 1rem; color: #333;">🌍 Interactive Map</h2>
+  <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+    <div style="flex: 1; min-width: 200px; max-width: 250px;">
       <ul id="mapSidebar" style="list-style: none; padding: 0;">
-        <li><button onclick="flyTo('Tokyo Tower')">Tokyo Tower</button></li>
-        <li><button onclick="flyTo('Shibuya Crossing')">Shibuya Crossing</button></li>
-        <li><button onclick="flyTo('Sensō-ji Temple')">Sensō-ji Temple</button></li>
-        <li><button onclick="flyTo('Seattle Space Needle')">Seattle Space Needle</button></li>
-        <li><button onclick="flyTo('Pike Place Market')">Pike Place Market</button></li>
-        <li><button onclick="flyTo('Gas Works Park')">Gas Works Park</button></li>
+        <li style="margin-bottom: 0.5rem;"><button onclick="flyTo('Tokyo Tower')" style="width: 100%; padding: 0.75rem; border-radius: 10px; border: none; background: #0066cc; color: white; font-weight: bold; cursor: pointer; transition: background 0.3s;">Tokyo Tower</button></li>
+        <li style="margin-bottom: 0.5rem;"><button onclick="flyTo('Shibuya Crossing')" style="width: 100%; padding: 0.75rem; border-radius: 10px; border: none; background: #0066cc; color: white; font-weight: bold; cursor: pointer; transition: background 0.3s;">Shibuya Crossing</button></li>
+        <li style="margin-bottom: 0.5rem;"><button onclick="flyTo('Sensō-ji Temple')" style="width: 100%; padding: 0.75rem; border-radius: 10px; border: none; background: #0066cc; color: white; font-weight: bold; cursor: pointer; transition: background 0.3s;">Sensō-ji Temple</button></li>
+        <li style="margin-bottom: 0.5rem;"><button onclick="flyTo('Seattle Space Needle')" style="width: 100%; padding: 0.75rem; border-radius: 10px; border: none; background: #0066cc; color: white; font-weight: bold; cursor: pointer; transition: background 0.3s;">Seattle Space Needle</button></li>
+        <li style="margin-bottom: 0.5rem;"><button onclick="flyTo('Pike Place Market')" style="width: 100%; padding: 0.75rem; border-radius: 10px; border: none; background: #0066cc; color: white; font-weight: bold; cursor: pointer; transition: background 0.3s;">Pike Place Market</button></li>
+        <li style="margin-bottom: 0.5rem;"><button onclick="flyTo('Gas Works Park')" style="width: 100%; padding: 0.75rem; border-radius: 10px; border: none; background: #0066cc; color: white; font-weight: bold; cursor: pointer; transition: background 0.3s;">Gas Works Park</button></li>
       </ul>
     </div>
-    <div id="customMap" style="height: 480px; flex: 3; min-width: 300px;"></div>
+    <div id="customMap" style="height: 480px; flex: 3; min-width: 300px; border-radius: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.2);"></div>
   </div>
 </section>
 
@@ -174,7 +174,7 @@
       center: { lat: 35.682839, lng: 139.759455 },
       zoom: 10,
       styles: [],
-      mapId: 'DEMO_MAP_ID' // Optional: If you want to use a styled map
+      mapId: 'DEMO_MAP_ID'
     });
 
     const iconBase = "https://maps.google.com/mapfiles/kml/shapes/";
@@ -201,7 +201,7 @@
         content: `
           <div style="max-width:200px">
             <strong>${name}</strong><br>
-            <img src="https://via.placeholder.com/150x100?text=${name.replace(/\s/g, '+')}" style="width:100%; border-radius:5px;" />
+            <img src="https://via.placeholder.com/150x100?text=${name.replace(/\s/g, '+')}" style="width:100%; border-radius:5px; margin-top: 5px;" />
           </div>`
       });
 
