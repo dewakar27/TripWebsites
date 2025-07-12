@@ -3,262 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Plan your next adventure with TripPilot by Deju – an interactive travel planner for Japan and Seattle.">
-  <meta property="og:title" content="TripPilot by Deju">
-  <meta property="og:description" content="Interactive AI travel assistant with trip planning, budget tool, and itinerary builder.">
-  <meta property="og:image" content="https://i.imgur.com/HMzN9PZ.jpeg">
-  <meta property="og:url" content="https://deju-travel-planner.netlify.app">
-  <link rel="icon" href="https://i.imgur.com/zzFFyij.png" type="image/png">
   <title>TripPilot by Deju</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta name="description" content="Plan your trip to Japan or Seattle with TripPilot by Deju. Create personalized itineraries with budget, map, gallery, and DejuBot assistant!">
+  <meta property="og:title" content="TripPilot by Deju">
+  <meta property="og:description" content="Plan your trip to Japan or Seattle with ease!">
+  <meta property="og:image" content="https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg">
+  <meta property="og:url" content="https://deju-travel-planner.netlify.app/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
   <style>
-    * {margin: 0; padding: 0; box-sizing: border-box;}
+    body.dark-mode { background: #1e1e1e; color: #fff; }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f5f5f5;
-      color: #333;
-      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      background: linear-gradient(to bottom, #f0f8ff, #ffffff);
     }
-    header {
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      position: sticky;
-      top: 0;
+    .menu-btn, .close-btn {
+      position: fixed;
+      z-index: 1000;
+      background: #000;
+      color: #fff;
+      border: none;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+    .menu-btn { top: 15px; left: 15px; }
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
       z-index: 999;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
     }
-    header h1 {
-      font-size: 2rem;
-      cursor: pointer;
-      animation: bounceGlow 2s infinite;
+    .sidebar a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      color: #fff;
+      display: block;
+      transition: 0.3s;
     }
-    @keyframes bounceGlow {
-      0%, 100% { transform: translateY(0); text-shadow: 0 0 10px orange; }
-      50% { transform: translateY(-5px); text-shadow: 0 0 20px red; }
+    .sidebar a:hover { color: #f1f1f1; }
+    .close-btn { top: 10px; right: 25px; }
+    .dark-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
     }
-    .hero {
-      position: relative;
-      height: 100vh;
-      overflow: hidden;
-      background: url('https://i.imgur.com/HMzN9PZ.jpeg') no-repeat center center/cover;
-    }
-    .hero video {
-      display: none;
-    }
-    .hero-content {
-      position: relative;
-      color: white;
-      text-align: center;
-      top: 40%;
-      transform: translateY(-50%);
-      opacity: 0;
-      animation: fadeSlideIn 1.5s forwards ease-in-out;
-    }
-    @keyframes fadeSlideIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(-50%);}
-    }
-    .planner {
-      text-align: center;
-      padding: 2rem;
-      background: #fff;
-    }
-    .planner input, .planner select, .planner button {
-      margin: 0.5rem;
-      padding: 0.7rem;
-      font-size: 1rem;
-    }
-    .planner button:hover {
-      background: #333;
-      color: white;
-      cursor: pointer;
-    }
-    .itinerary {
-      padding: 2rem;
-      background: #f0f0f0;
-    }
-    .itinerary-card {
-      background: white;
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .popular-places {
-      padding: 2rem;
-      background: #fff;
-    }
-    .popular-places .place {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .popular-places .place.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .popular-places img {
-      width: 100%;
-      border-radius: 10px;
-      transition: transform 0.3s ease;
-    }
-    .popular-places img:hover {
-      transform: scale(1.05);
-    }
-    .how-it-works {
-      padding: 3rem 2rem;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    .section {
+      padding: 60px 20px;
       text-align: center;
     }
-    .how-it-works h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .how-it-works p {
-      max-width: 700px;
-      margin: 0 auto 2rem;
-      font-size: 1rem;
-      color: #444;
-    }
-    .how-steps {
+    .gallery {
       display: flex;
       flex-wrap: wrap;
+      gap: 20px;
       justify-content: center;
-      gap: 2rem;
     }
-    .step {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 260px;
-    }
-    .step h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.2rem;
-    }
-    .step p {
-      font-size: 0.95rem;
-      color: #555;
-    }
-    .scroll-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: #333;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 1.5rem;
+    .gallery img {
+      width: 200px;
+      border-radius: 10px;
       cursor: pointer;
-      z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
     }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #222;
-      color: white;
-      margin-top: 2rem;
+    .gallery img:hover { transform: scale(1.1); }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    .modal-content {
+      margin: 5% auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+    }
+    .close-modal {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
+<!-- Sidebar Menu -->
+<div id="sidebar" class="sidebar">
+  <button class="close-btn" onclick="toggleSidebar()">×</button>
+  <a href="#">Home</a>
+  <a href="#planner">Plan Trip</a>
+  <a href="#itinerary">Itinerary</a>
+  <a href="#popular">Popular Places</a>
+  <a href="#how">How It Works</a>
+  <a href="#map">Interactive Map</a>
+</div>
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
 
-<!-- TripPilot Title -->
-<header>
-  <h1 onclick="location.href='/'">TripPilot 🔥</h1>
-</header>
-
-<!-- Hero Static Background -->
-<div class="hero">
-  <div class="hero-content">
-    <h2>Plan Your Adventure to Japan or Seattle!</h2>
-  </div>
+<!-- Dark Mode Toggle -->
+<div class="dark-toggle">
+  🌙 <input type="checkbox" id="darkToggle">
 </div>
 
-<!-- Planner Section -->
-<section class="planner">
-  <h2>Plan Your Trip</h2>
-  <input type="date" id="tripDate">
-  <input type="number" id="budget" placeholder="Enter your budget">
-  <select id="destination">
-    <option value="">Choose Destination</option>
-    <option value="Japan">Japan</option>
-    <option value="Seattle">Seattle</option>
-  </select>
-  <button onclick="generateItinerary()">Generate Itinerary</button>
-  <p id="message" style="color:red;"></p>
-</section>
-
-<!-- Itinerary Section -->
-<section class="itinerary">
-  <h2>Your Trip Itinerary</h2>
-  <div id="itineraryResults"></div>
-</section>
-
-<!-- Popular Places -->
-<section class="popular-places">
-  <h2 style="text-align:center">Popular Places</h2>
-  <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
-    <div class="place" style="width:250px;">
-      <img src="https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg" alt="Tokyo">
-      <h4>Tokyo, Japan</h4><p>From $120/day</p>
-    </div>
-    <div class="place" style="width:250px;">
-      <img src="https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg" alt="Kyoto">
-      <h4>Kyoto, Japan</h4><p>From $95/day</p>
-    </div>
-    <div class="place" style="width:250px;">
-      <img src="https://cdn.pixabay.com/photo/2016/03/27/22/16/seattle-1283921_1280.jpg" alt="Seattle">
-      <h4>Seattle, WA</h4><p>From $150/day</p>
-    </div>
-    <div class="place" style="width:250px;">
-      <img src="https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg" alt="Pike Place">
-      <h4>Pike Place Market</h4><p>From $80/day</p>
-    </div>
+<!-- Gallery Section -->
+<section class="section" id="gallery" data-aos="fade-up">
+  <h2>Travel Gallery</h2>
+  <div class="gallery">
+    <img src="https://cdn.pixabay.com/photo/2016/11/18/15/17/tokyo-1832175_1280.jpg" alt="Tokyo" onclick="openModal(this.src)">
+    <img src="https://cdn.pixabay.com/photo/2016/01/12/15/45/kyoto-1131423_1280.jpg" alt="Kyoto" onclick="openModal(this.src)">
+    <img src="https://cdn.pixabay.com/photo/2017/01/13/11/14/osaka-1972813_1280.jpg" alt="Osaka" onclick="openModal(this.src)">
+    <img src="https://cdn.pixabay.com/photo/2017/05/13/17/31/market-2318973_1280.jpg" alt="Seattle Market" onclick="openModal(this.src)">
   </div>
 </section>
 
-<!-- How It Works Section -->
-<section class="how-it-works">
-  <h2>How It Works</h2>
-  <p>TripPilot makes travel planning fun and easy. Pick your destination, set your budget, and get a day-by-day itinerary with places, images, and suggestions powered by DejuBot.</p>
-  <div class="how-steps">
-    <div class="step">
-      <h3>1. Choose Destination</h3>
-      <p>Select between Japan or Seattle to start your journey.</p>
-    </div>
-    <div class="step">
-      <h3>2. Set a Budget</h3>
-      <p>Enter how much you're willing to spend so we can customize your trip.</p>
-    </div>
-    <div class="step">
-      <h3>3. Get Itinerary</h3>
-      <p>View your full plan with daily spots, costs, and images — ready to explore!</p>
-    </div>
-  </div>
+<!-- Modal Viewer -->
+<div id="modal" class="modal">
+  <span class="close-modal" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="modalImage">
+</div>
+
+<!-- Map Section -->
+<section class="section" id="map" data-aos="fade-up">
+  <h2>Interactive Map</h2>
+  <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1UO4kex8-YgJpnRghfTDKiUmBchC5Rnk&ehbc=2E312F" width="90%" height="480"></iframe>
 </section>
-
-<script>
-  // Scroll-trigger reveal for .place cards
-  const places = document.querySelectorAll('.place');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  places.forEach(place => observer.observe(place));
-</script>
 
 <!-- Footer -->
-<footer>
-  © 2025 TripPilot — Built by Deju 🔥
+<footer style="text-align:center; padding:1rem; background:#000; color:#fff;">
+  <p>© 2025 TripPilot 🔥 | Built by Deju</p>
 </footer>
+
+<!-- Scroll to Top Button -->
+<button onclick="scrollToTop()" style="position:fixed; bottom:20px; right:20px; z-index:1000; padding:10px; font-size:1.5rem; border:none; border-radius:50%; background:#333; color:#fff; cursor:pointer;">⬆️</button>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init();
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+}
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.getElementById('darkToggle').addEventListener('change', () => {
+  document.body.classList.toggle('dark-mode');
+});
+function openModal(src) {
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modalImage');
+  modal.style.display = "block";
+  modalImg.src = src;
+}
+function closeModal() {
+  document.getElementById('modal').style.display = "none";
+}
+</script>
 </body>
 </html>
