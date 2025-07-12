@@ -257,6 +257,25 @@ function openModal(src) {
 function closeModal() {
   document.getElementById('modal').style.display = "none";
 }
+<script>
+  // Auto-detect and sync dark mode with system settings
+  window.addEventListener('DOMContentLoaded', () => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark-mode');
+      document.documentElement.style.background = '#111';
+      document.body.style.color = '#eee';
+    }
+  });
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    if (document.body.classList.contains('dark-mode')) {
+      document.documentElement.style.background = '#111';
+      document.body.style.color = '#eee';
+    } else {
+      document.documentElement.style.background = '#fff';
+      document.body.style.color = '#333';
+    }
+  }
 </script>
 </body>
 </html>
