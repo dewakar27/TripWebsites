@@ -141,9 +141,56 @@
 </div>
 
 <!-- Map Section -->
-<section class="section" id="map" data-aos="fade-up">
-  <h2>Interactive Map</h2>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d107294.00736605768!2d139.60078375!3d35.6894875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188c0b06a03f6f%3A0x2f4c4cc14aaf5691!2sTokyo%2C%20Japan!5e0!3m2!1sen!2sus!4v1720700000000!5m2!1sen!2sus" width="90%" height="480" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+<section class="section parallax-bg" id="map" data-aos="fade-up">
+  <h2 class="aos-init aos-animate" data-aos="zoom-in">Interactive Map</h2>
+  <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 200px; max-width: 240px; margin: 1rem;">
+      <h3 style="text-align:center;" data-aos="fade-right">Jump to Location</h3>
+      <ul id="mapSidebar" style="list-style: none; padding: 0;">
+        <li><button class="map-btn" data-aos="fade-up" onclick="flyTo('Tokyo Tower')">Tokyo Tower</button></li>
+        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="100" onclick="flyTo('Shibuya Crossing')">Shibuya Crossing</button></li>
+        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="200" onclick="flyTo('Sensō-ji Temple')">Sensō-ji Temple</button></li>
+        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="300" onclick="flyTo('Seattle Space Needle')">Space Needle</button></li>
+        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="400" onclick="flyTo('Pike Place Market')">Pike Place Market</button></li>
+        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="500" onclick="flyTo('Gas Works Park')">Gas Works Park</button></li>
+      </ul>
+    </div>
+    <div id="customMap" style="flex: 3; min-width: 300px; height: 480px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" data-aos="zoom-in-up"></div>
+  </div>
+</section>
+
+<!-- Combined Map Marker Note -->
+<section class="section" data-aos="fade-up">
+  <p data-aos="fade-up" data-aos-delay="200"><strong>Note:</strong> Use the interactive map above to explore custom locations in <span style="color:#2980b9;">Tokyo</span> and <span style="color:#27ae60;">Seattle</span>. Click the pins for details!</p>
+</section>
+
+<style>
+  .parallax-bg {
+    background: linear-gradient(to right, #eef2f3, #8e9eab);
+    background-attachment: fixed;
+    padding: 2rem 1rem;
+  }
+  .map-btn {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    margin: 0.4rem 0;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  .map-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+  }
+</style>
+
+<script>
+// ... existing JavaScript stays unchanged
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL60Nzk088norGs91J0hgfuxoNudRNz6w&callback=initMap"></script>
 </section>
 
 <!-- Footer -->
