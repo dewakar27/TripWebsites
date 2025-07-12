@@ -141,54 +141,88 @@
 </div>
 
 <!-- Map Section -->
-<section class="section parallax-bg" id="map" data-aos="fade-up">
-  <h2 class="aos-init aos-animate" data-aos="zoom-in">Interactive Map</h2>
-  <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-    <div style="flex: 1; min-width: 200px; max-width: 240px; margin: 1rem;">
-      <h3 style="text-align:center;" data-aos="fade-right">Jump to Location</h3>
+<section class="section" id="map" data-aos="fade-up">
+  <h2 class="section-title">Interactive Map</h2>
+  <div style="display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 200px; max-width: 250px; margin-right: 20px;">
       <ul id="mapSidebar" style="list-style: none; padding: 0;">
-        <li><button class="map-btn" data-aos="fade-up" onclick="flyTo('Tokyo Tower')">Tokyo Tower</button></li>
-        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="100" onclick="flyTo('Shibuya Crossing')">Shibuya Crossing</button></li>
-        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="200" onclick="flyTo('Sensō-ji Temple')">Sensō-ji Temple</button></li>
-        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="300" onclick="flyTo('Seattle Space Needle')">Space Needle</button></li>
-        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="400" onclick="flyTo('Pike Place Market')">Pike Place Market</button></li>
-        <li><button class="map-btn" data-aos="fade-up" data-aos-delay="500" onclick="flyTo('Gas Works Park')">Gas Works Park</button></li>
+        <li><button onclick="flyTo('Tokyo Tower')">Tokyo Tower</button></li>
+        <li><button onclick="flyTo('Shibuya Crossing')">Shibuya Crossing</button></li>
+        <li><button onclick="flyTo('Sensō-ji Temple')">Sensō-ji Temple</button></li>
+        <li><button onclick="flyTo('Seattle Space Needle')">Seattle Space Needle</button></li>
+        <li><button onclick="flyTo('Pike Place Market')">Pike Place Market</button></li>
+        <li><button onclick="flyTo('Gas Works Park')">Gas Works Park</button></li>
       </ul>
     </div>
-    <div id="customMap" style="flex: 3; min-width: 300px; height: 480px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" data-aos="zoom-in-up"></div>
+    <div id="customMap" style="height: 480px; flex: 3; min-width: 300px;"></div>
   </div>
 </section>
 
-<!-- Combined Map Marker Note -->
-<section class="section" data-aos="fade-up">
-  <p data-aos="fade-up" data-aos-delay="200"><strong>Note:</strong> Use the interactive map above to explore custom locations in <span style="color:#2980b9;">Tokyo</span> and <span style="color:#27ae60;">Seattle</span>. Click the pins for details!</p>
-</section>
-
-<style>
-  .parallax-bg {
-    background: linear-gradient(to right, #eef2f3, #8e9eab);
-    background-attachment: fixed;
-    padding: 2rem 1rem;
-  }
-  .map-btn {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    margin: 0.4rem 0;
-    border: none;
-    background-color: #3498db;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-  .map-btn:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-  }
-</style>
-
 <script>
-// ... existing JavaScript stays unchanged
+  let map;
+  const locations = {
+    'Tokyo Tower': { lat: 35.6586, lng: 139.7454 },
+    'Shibuya Crossing': { lat: 35.6595, lng: 139.7005 },
+    'Sensō-ji Temple': { lat: 35.7148, lng: 139.7967 },
+    'Seattle Space Needle': { lat: 47.6205, lng: -122.3493 },
+    'Pike Place Market': { lat: 47.6097, lng: -122.3425 },
+    'Gas Works Park': { lat: 47.6456, lng: -122.3344 }
+  };
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById("customMap"), {
+      center: { lat: 35.682839, lng: 139.759455 },
+      zoom: 10,
+      styles: [],
+      mapId: 'DEMO_MAP_ID' // Optional: If you want to use a styled map
+    });
+
+    const iconBase = "https://maps.google.com/mapfiles/kml/shapes/";
+    const customIcons = {
+      default: iconBase + "info-i_maps.png",
+      tokyo: "https://cdn-icons-png.flaticon.com/512/3448/3448334.png",
+      seattle: "https://cdn-icons-png.flaticon.com/512/684/684908.png"
+    };
+
+    for (const name in locations) {
+      const isTokyo = name.includes("Tokyo") || name.includes("Shibuya") || name.includes("Sensō-ji");
+      const marker = new google.maps.Marker({
+        position: locations[name],
+        map,
+        title: name,
+        animation: google.maps.Animation.DROP,
+        icon: {
+          url: isTokyo ? customIcons.tokyo : customIcons.seattle,
+          scaledSize: new google.maps.Size(32, 32)
+        }
+      });
+
+      const infowindow = new google.maps.InfoWindow({
+        content: `
+          <div style="max-width:200px">
+            <strong>${name}</strong><br>
+            <img src="https://via.placeholder.com/150x100?text=${name.replace(/\s/g, '+')}" style="width:100%; border-radius:5px;" />
+          </div>`
+      });
+
+      marker.addListener("click", () => {
+        infowindow.open(map, marker);
+      });
+
+      marker.addListener("mouseover", () => {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(() => marker.setAnimation(null), 700);
+      });
+    }
+  }
+
+  function flyTo(locationName) {
+    const target = locations[locationName];
+    if (target) {
+      map.panTo(target);
+      map.setZoom(14);
+    }
+  }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL60Nzk088norGs91J0hgfuxoNudRNz6w&callback=initMap"></script>
 </section>
